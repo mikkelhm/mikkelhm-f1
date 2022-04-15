@@ -1,0 +1,5 @@
+resource_group_name  = "tfstate"
+storage_account_name = "#{tf_state_storage_account_name}#"
+container_name       = "tfstate"
+key                  = "terraform.tfstate-f1"
+access_key           = "#{tf_state_storage_account_access_key}#"
