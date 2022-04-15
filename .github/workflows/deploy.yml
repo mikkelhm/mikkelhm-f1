@@ -65,7 +65,7 @@ jobs:
       - name: Terraform apply
         id: apply
         if: github.ref == 'refs/heads/main'
-        run: terraform apply -var-file="variables.tfvars"
+        run: terraform apply -var-file="variables.tfvars" -auto-approve
 
       - uses: actions/github-script@v6
         if: github.event_name == 'pull_request'
