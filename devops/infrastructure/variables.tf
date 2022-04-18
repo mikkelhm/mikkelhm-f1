@@ -23,3 +23,7 @@ variable "cloudflare_zone_id" {
 variable "cloudflare_api_token" {
   description = "Cloudflare api token to access the zone"
 }
+
+variable "github_token" {
+  description = "Token that can edit in github"
+}
