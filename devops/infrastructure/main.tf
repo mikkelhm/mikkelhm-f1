@@ -12,9 +12,9 @@ resource "azurerm_static_site" "ss-mikkelhm-f1" {
 }
 
 resource "github_actions_secret" "deployment_token" {
-  repository       = "mikkelhm-f1"
-  secret_name      = "AZURE_STATIC_WEB_APPS_API_TOKEN"
-  plaintext_value  = azurerm_static_site.ss-mikkelhm-f1.api_key
+  repository      = "mikkelhm-f1"
+  secret_name     = "AZURE_STATIC_WEB_APPS_API_TOKEN"
+  plaintext_value = azurerm_static_site.ss-mikkelhm-f1.api_key
 }
 
 # Create a custom domain in the Static Webapp
