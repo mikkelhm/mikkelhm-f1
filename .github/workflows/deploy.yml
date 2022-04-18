@@ -16,8 +16,6 @@ jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
-    permissions:
-      contents: write 
     defaults:
       run:
         working-directory: ./devops/infrastructure
@@ -59,7 +57,7 @@ jobs:
           azure_client_secret: ${{ secrets.AZURE_CLIENT_SECRET }}
           cloudflare_zone_id: ${{ secrets.CLOUDFLARE_ZONE_ID }}
           cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_PAT_TOKEN }}
 
       - name: Terraform plan
         id: plan
