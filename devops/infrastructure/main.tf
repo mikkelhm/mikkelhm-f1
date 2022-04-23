@@ -53,7 +53,7 @@ resource "cloudflare_record" "cf-cname-f1-mikkelhm-f1" {
 # Application Insights
 
 resource "azurerm_storage_account" "sa-functions-mikkelhm-f1" {
-  name                     = "mikkelhm-f1-functions-storage"
+  name                     = "mikkelhmf1functionsstorage"
   resource_group_name      = azurerm_resource_group.rg-mikkelhm-f1.name
   location                 = azurerm_resource_group.rg-mikkelhm-f1.location
   account_tier             = "Standard"
