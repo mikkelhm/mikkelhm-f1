@@ -66,7 +66,7 @@ resource "azurerm_linux_function_app" "f1-functions-app-service" {
   location            = azurerm_resource_group.rg-mikkelhm-f1.location
 
   storage_account_name = azurerm_storage_account.f1-storage-functions.name
-  service_plan_id      = azurerm_service_plan.f1-storage-functions.id
+  service_plan_id      = azurerm_service_plan.f1-app-service-plan.id
 
   site_config {}
 }
