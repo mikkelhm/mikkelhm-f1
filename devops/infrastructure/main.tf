@@ -41,3 +41,32 @@ resource "cloudflare_record" "cf-cname-f1-mikkelhm-f1" {
   type    = "CNAME"
   ttl     = 1
 }
+
+# Application Insights
+
+resource "azurerm_storage_account" "f1-storage-functions" {
+  name                     = "f1storagefunctions"
+  resource_group_name      = azurerm_resource_group.rg-mikkelhm-f1.name
+  location                 = azurerm_resource_group.rg-mikkelhm-f1.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+}
+
+resource "azurerm_service_plan" "f1-app-service-plan" {
+  name                = "f1functionsappserviceplan"
+  resource_group_name = azurerm_resource_group.rg-mikkelhm-f1.name
+  location            = azurerm_resource_group.rg-mikkelhm-f1.location
+  os_type             = "Linux"
+  sku_name            = "Y1"
+}
+
+resource "azurerm_linux_function_app" "f1-functions-app-service" {
+  name                = "f1functionsappservice"
+  resource_group_name = azurerm_resource_group.rg-mikkelhm-f1.name
+  location            = azurerm_resource_group.rg-mikkelhm-f1.location
+
+  storage_account_name = azurerm_storage_account.f1-storage-functions.name
+  service_plan_id      = azurerm_service_plan.f1-storage-functions.id
+
+  site_config {}
+}
