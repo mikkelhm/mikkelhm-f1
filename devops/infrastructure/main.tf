@@ -4,6 +4,14 @@ resource "azurerm_resource_group" "rg-mikkelhm-f1" {
   location = "westeurope"
 }
 
+# Application Insights
+resource "azurerm_application_insights" "ai-mikkelhm-f1" {
+  name                = "mikkelhm-f1-ai"
+  location            = azurerm_resource_group.rg-mikkelhm-f1.location
+  resource_group_name = azurerm_resource_group.rg-mikkelhm-f1.name
+  application_type    = "web"
+}
+
 # Create the Static Webapp
 resource "azurerm_static_site" "ss-mikkelhm-f1" {
   name                = "mikkelhm-f1"
@@ -44,29 +52,31 @@ resource "cloudflare_record" "cf-cname-f1-mikkelhm-f1" {
 
 # Application Insights
 
-resource "azurerm_storage_account" "f1-storage-functions" {
-  name                     = "f1storagefunctions"
+resource "azurerm_storage_account" "sa-functions-mikkelhm-f1" {
+  name                     = "mikkelhm-f1-functions-storage"
   resource_group_name      = azurerm_resource_group.rg-mikkelhm-f1.name
   location                 = azurerm_resource_group.rg-mikkelhm-f1.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
 
-resource "azurerm_service_plan" "f1-app-service-plan" {
-  name                = "f1functionsappserviceplan"
+resource "azurerm_service_plan" "ap-functions-mikkelhm-f1" {
+  name                = "mikkelhm-f1-functions-plan"
   resource_group_name = azurerm_resource_group.rg-mikkelhm-f1.name
   location            = azurerm_resource_group.rg-mikkelhm-f1.location
   os_type             = "Linux"
   sku_name            = "Y1"
 }
 
-resource "azurerm_linux_function_app" "f1-functions-app-service" {
-  name                = "f1functionsappservice"
+resource "azurerm_linux_function_app" "fa-functions-mikkelhm-f1" {
+  name                = "mikkelhm-f1-functions-app"
   resource_group_name = azurerm_resource_group.rg-mikkelhm-f1.name
   location            = azurerm_resource_group.rg-mikkelhm-f1.location
 
-  storage_account_name = azurerm_storage_account.f1-storage-functions.name
-  service_plan_id      = azurerm_service_plan.f1-app-service-plan.id
+  storage_account_name = azurerm_storage_account.sa-functions-mikkelhm-f1
+  service_plan_id      = azurerm_service_plan.ap-functions-mikkelhm-f1.id
 
-  site_config {}
+  site_config {
+    application_insights_key = azurerm_application_insights.ai-mikkelhm-f1.instrumentation_key
+  }
 }
