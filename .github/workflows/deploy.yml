@@ -105,7 +105,7 @@ jobs:
               body: output
             }) 
 
-  build-via-dotnet:
+  build:
     needs: terraform
     name: 'Build C# projects via dotnet'
     runs-on: ubuntu-latest
@@ -114,18 +114,18 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.x'
-    - name: 'Build functions project'
-      shell: bash
-      env:
-        AZURE_FUNCTIONAPP_PACKAGE_PATH: 'src/Mikkelhm-F1.Functions'
-      run: |
-        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-        dotnet build --configuration Release --output ./output
-        popd
+      - name: 'Build functions project'
+        shell: bash
+        env:
+          AZURE_FUNCTIONAPP_PACKAGE_PATH: 'src/Mikkelhm-F1.Functions'
+        run: |
+          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          dotnet build --configuration Release --output ./output
+          popd
 
   # This workflow contains a single job called "build"
   deploy:
-    needs: build-via-dotnet
+    needs: build
     if: github.ref == 'refs/heads/main'
     name: 'Deploy to f1.madsn.dk'
     # The type of runner that the job will run on
