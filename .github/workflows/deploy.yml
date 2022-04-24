@@ -118,10 +118,10 @@ jobs:
       shell: bash
       env:
         AZURE_FUNCTIONAPP_PACKAGE_PATH: 'src/Mikkelhm-F1.Functions'
-        run: |
-          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          dotnet build --configuration Release --output ./output
-          popd
+      run: |
+        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+        dotnet build --configuration Release --output ./output
+        popd
 
   # This workflow contains a single job called "build"
   deploy:
