@@ -106,10 +106,11 @@ jobs:
             }) 
 
   build:
-    needs: terraform
     name: 'Build C# projects via dotnet'
     runs-on: ubuntu-latest
     steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
       - name: Setup DotNet
         uses: actions/setup-dotnet@v1
         with:
@@ -125,7 +126,7 @@ jobs:
 
   # This workflow contains a single job called "build"
   deploy:
-    needs: build
+    needs: [build, terraform]
     if: github.ref == 'refs/heads/main'
     name: 'Deploy to f1.madsn.dk'
     # The type of runner that the job will run on
