@@ -105,9 +105,9 @@ jobs:
               body: output
             }) 
 
-  build:
+  build-via-dotnet:
     needs: terraform
-    name: 'Build'
+    name: 'Build C# projects via dotnet'
     runs-on: ubuntu-latest
     steps:
       - name: Setup DotNet
@@ -125,7 +125,7 @@ jobs:
 
   # This workflow contains a single job called "build"
   deploy:
-    needs: build
+    needs: build-via-dotnet
     if: github.ref == 'refs/heads/main'
     name: 'Deploy to f1.madsn.dk'
     # The type of runner that the job will run on
