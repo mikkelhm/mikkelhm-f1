@@ -6,13 +6,13 @@ resource "azurerm_resource_group" "rg-mikkelhm-f1" {
 
 # TODO: Create Service Principal that can modify resources in this resource group
 # TODO: Store its output as json in a GITHUB secret like: 
-  # {
-  #   "clientId": "<GUID>",
-  #   "clientSecret": "<STRING>",
-  #   "subscriptionId": "<GUID>",
-  #   "tenantId": "<GUID>",
-  #   "resourceManagerEndpointUrl": "https://management.azure.com/"
-  # }
+# {
+#   "clientId": "<GUID>",
+#   "clientSecret": "<STRING>",
+#   "subscriptionId": "<GUID>",
+#   "tenantId": "<GUID>",
+#   "resourceManagerEndpointUrl": "https://management.azure.com/"
+# }
 # TODO: use that secret when deploying (in deploy.yml)
 
 # Application Insights
