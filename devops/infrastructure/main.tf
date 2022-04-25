@@ -4,8 +4,18 @@ resource "azurerm_resource_group" "rg-mikkelhm-f1" {
   location = "westeurope"
 }
 
-# Application Insights
+# TODO: Create Service Principal that can modify resources in this resource group
+# TODO: Store its output as json in a GITHUB secret like: 
+  # {
+  #   "clientId": "<GUID>",
+  #   "clientSecret": "<STRING>",
+  #   "subscriptionId": "<GUID>",
+  #   "tenantId": "<GUID>",
+  #   "resourceManagerEndpointUrl": "https://management.azure.com/"
+  # }
+# TODO: use that secret when deploying (in deploy.yml)
 
+# Application Insights
 resource "azurerm_log_analytics_workspace" "law-mikkelhm-f1" {
   name                = "mikkelhm-f1-law"
   location            = azurerm_resource_group.rg-mikkelhm-f1.location
@@ -29,6 +39,7 @@ resource "azurerm_static_site" "ss-mikkelhm-f1" {
   location            = "West Europe"
 }
 
+# Store a Static WebApp deployment token
 resource "github_actions_secret" "deployment_token" {
   repository      = "mikkelhm-f1"
   secret_name     = "AZURE_STATIC_WEB_APPS_API_TOKEN"
@@ -60,6 +71,7 @@ resource "cloudflare_record" "cf-cname-f1-mikkelhm-f1" {
   ttl     = 1
 }
 
+# Create a Storage account for the functions app to tuse
 resource "azurerm_storage_account" "sa-functions-mikkelhm-f1" {
   name                     = "mikkelhmf1safunctions"
   resource_group_name      = azurerm_resource_group.rg-mikkelhm-f1.name
@@ -68,6 +80,7 @@ resource "azurerm_storage_account" "sa-functions-mikkelhm-f1" {
   account_replication_type = "LRS"
 }
 
+# Create a app plan that the functions app can run on
 resource "azurerm_service_plan" "ap-functions-mikkelhm-f1" {
   name                = "mikkelhm-f1-functions-plan"
   resource_group_name = azurerm_resource_group.rg-mikkelhm-f1.name
@@ -76,6 +89,7 @@ resource "azurerm_service_plan" "ap-functions-mikkelhm-f1" {
   sku_name            = "Y1"
 }
 
+# Create the functions app
 resource "azurerm_linux_function_app" "fa-functions-mikkelhm-f1" {
   name                = "mikkelhm-f1-functions-app"
   resource_group_name = azurerm_resource_group.rg-mikkelhm-f1.name
