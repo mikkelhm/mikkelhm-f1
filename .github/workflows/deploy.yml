@@ -121,16 +121,17 @@ jobs:
           AZURE_FUNCTIONAPP_PACKAGE_PATH: 'src/Mikkelhm-F1.Functions'
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          dotnet build --configuration Release --output ./output
+          dotnet build --configuration Release --output ./functions-output
           popd
 
-  # This workflow contains a single job called "build"
   deploy:
     needs: [build, terraform]
     if: github.ref == 'refs/heads/main'
     name: 'Deploy to f1.madsn.dk'
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    env:
+      AZURE_FUNCTIONAPP_PACKAGE_PATH: 'src/Mikkelhm-F1.Functions'
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -153,3 +154,16 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.x'
+
+      - name: 'Build functions project'
+        shell: bash
+        run: |
+          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          dotnet build --configuration Release --output ./functions-output
+          popd
+
+      - name: Depoy the functions app
+        uses: Azure/functions-action@v1
+        with:
+          app-name: mikkelhm-f1-functions-app
+          package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/functions-output'
