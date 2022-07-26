@@ -130,7 +130,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: functions_artifacts
-          path: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+          path: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/${{ env.FUNCTIONS_PACKAGE_NAME }}
           if-no-files-found: error
 
   deploy:
