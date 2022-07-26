@@ -140,7 +140,7 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     env:
-      AZURE_FUNCTIONAPP_PACKAGE_PATH: 'src/Mikkelhm-F1.Functions'
+      BUILD_OUTPUT_PATH: '${{ github.workspace }}/build-artifacts'
       AZURE_RESOURCE_GROUP_NAME: 'mikkelhm-f1'
       AZURE_FUNCTIONAPP_NAME: 'mikkelhm-f1-functions-app'
       FUNCTIONS_PACKAGE_NAME: 'az-func.zip'
@@ -190,6 +190,11 @@ jobs:
               Write-Output "::set-output name=pubprofile::$profile"
               Remove-Variable profile
           azPSVersion: "latest"
+
+      - name: 'Create output directory'
+        shell: bash
+        run: |
+          mkdir ${{ env.BUILD_OUTPUT_PATH }}
 
       # Fetch published code
       - name: 'Download Azure function release build'
