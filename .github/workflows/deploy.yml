@@ -108,6 +108,9 @@ jobs:
   build:
     name: 'Build C# projects via dotnet'
     runs-on: ubuntu-latest
+    env:
+      AZURE_FUNCTIONAPP_PACKAGE_PATH: 'src/Mikkelhm-F1.Functions'
+      FUNCTIONS_PACKAGE_NAME: 'az-func.zip'
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
@@ -117,12 +120,19 @@ jobs:
           dotnet-version: '6.0.x'
       - name: 'Build functions project'
         shell: bash
-        env:
-          AZURE_FUNCTIONAPP_PACKAGE_PATH: 'src/Mikkelhm-F1.Functions'
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           dotnet build --configuration Release --output ./functions-output
+          cd ./functions-output
+          zip -r ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/${{ env.FUNCTIONS_PACKAGE_NAME }} .
           popd
+      # Upload the code artifact, this will be used later
+      - name: 'Package Azure Function release build'
+        uses: actions/upload-artifact@v2
+        with:
+          name: functions_artifacts
+          path: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+          if-no-files-found: error
 
   deploy:
     needs: [build, terraform]
@@ -132,6 +142,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       AZURE_FUNCTIONAPP_PACKAGE_PATH: 'src/Mikkelhm-F1.Functions'
+      AZURE_RESOURCE_GROUP_NAME: 'mikkelhm-f1'
+      AZURE_FUNCTIONAPP_NAME: 'mikkelhm-f1-functions-app'
+      FUNCTIONS_PACKAGE_NAME: 'az-func.zip'
 
     permissions:
           id-token: write
@@ -159,22 +172,36 @@ jobs:
         with:
           dotnet-version: '6.0.x'
 
-      - name: 'Build functions project'
-        shell: bash
-        run: |
-          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          dotnet build --configuration Release --output ./functions-output
-          popd
-
       - name: OIDC Login to Azure Public Cloud with AzPowershell (enableAzPSSession true)
         uses: azure/login@v1
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }} 
-          
+          enable-AzPSSession: true
+
+      - name: 'Fetching Azure Functions Publishing Profile'
+        id: fncapp
+        uses: azure/powershell@v1
+        with:
+          inlineScript: |
+              $profile = ""
+              $profile = Get-AzWebAppPublishingProfile -ResourceGroupName $env:AZURE_RESOURCE_GROUP_NAME -Name $env:AZURE_FUNCTIONAPP_NAME
+              $profile = $profile.Replace("`r", "").Replace("`n", "")
+              Write-Output "::set-output name=pubprofile::$profile"
+              Remove-Variable profile
+          azPSVersion: "latest"
+
+      # Fetch published code
+      - name: 'Download Azure function release build'
+        uses: actions/download-artifact@v2
+        with:
+          name: functions_artifacts
+          path: ${{ env.BUILD_OUTPUT_PATH }}
+
       - name: Depoy the functions app
         uses: Azure/functions-action@v1
         with:
           app-name: mikkelhm-f1-functions-app
-          package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/functions-output'
+          package: ${{ env.BUILD_OUTPUT_PATH }}/${{ env.FUNCTIONS_PACKAGE_NAME }}
+          publish-profile: ${{ steps.fncapp.outputs.pubprofile }}
