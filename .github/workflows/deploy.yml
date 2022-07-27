@@ -123,7 +123,8 @@ jobs:
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           dotnet publish --configuration Release --output ./functions-output
-          zip -r ${{ env.FUNCTIONS_PACKAGE_NAME }} ./functions-output
+          cd ./functions-output
+          zip -r ${{ env.FUNCTIONS_PACKAGE_NAME }} .
           popd
       # Upload the code artifact, this will be used later
       - name: 'Package Azure Function release build'
