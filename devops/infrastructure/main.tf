@@ -95,8 +95,9 @@ resource "azurerm_linux_function_app" "fa-functions-mikkelhm-f1" {
   resource_group_name = azurerm_resource_group.rg-mikkelhm-f1.name
   location            = azurerm_resource_group.rg-mikkelhm-f1.location
 
-  storage_account_name = azurerm_storage_account.sa-functions-mikkelhm-f1.name
-  service_plan_id      = azurerm_service_plan.ap-functions-mikkelhm-f1.id
+  storage_account_name       = azurerm_storage_account.sa-functions-mikkelhm-f1.name
+  storage_account_access_key = azurerm_storage_account.sa-functions-mikkelhm-f1.storage_account_access_key
+  service_plan_id            = azurerm_service_plan.ap-functions-mikkelhm-f1.id
 
   site_config {
     application_insights_key = azurerm_application_insights.ai-mikkelhm-f1.instrumentation_key
