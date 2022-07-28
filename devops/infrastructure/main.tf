@@ -101,7 +101,7 @@ resource "azurerm_linux_function_app" "fa-functions-mikkelhm-f1" {
   site_config {
     application_insights_key = azurerm_application_insights.ai-mikkelhm-f1.instrumentation_key
   }
-  
+
   app_settings = {
     "FUNCTIONS_WORKER_RUNTIME" = "dotnet"
   }
