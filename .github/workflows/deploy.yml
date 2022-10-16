@@ -21,7 +21,7 @@ jobs:
         working-directory: ./devops/infrastructure
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
@@ -113,9 +113,9 @@ jobs:
       FUNCTIONS_PACKAGE_NAME: 'az-func.zip'
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup DotNet
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '6.0.x'
       - name: 'Build functions project'
@@ -128,7 +128,7 @@ jobs:
           popd
       # Upload the code artifact, this will be used later
       - name: 'Package Azure Function release build'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: functions_artifacts
           path: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/functions-output/${{ env.FUNCTIONS_PACKAGE_NAME }}
@@ -153,7 +153,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Azure Static Web Apps Deploy
         uses: Azure/static-web-apps-deploy@v1
@@ -168,7 +168,7 @@ jobs:
           skip_app_build: true
 
       - name: Setup DotNet
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '6.0.x'
 
@@ -199,7 +199,7 @@ jobs:
 
       # Fetch published code
       - name: 'Download Azure function release build'
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: functions_artifacts
           path: ${{ env.BUILD_OUTPUT_PATH }}
