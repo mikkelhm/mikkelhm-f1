@@ -124,7 +124,7 @@ resource "azurerm_cosmosdb_account" "cosmosdb" {
   }
 
   geo_location {
-    location          = data.azurerm_resource_group.rg-mikkelhm-f1.location
+    location          = azurerm_resource_group.rg-mikkelhm-f1.location
     failover_priority = 0
   }
 }
