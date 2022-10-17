@@ -133,7 +133,7 @@ resource "azurerm_cosmosdb_account" "cosmosdb" {
 resource "github_actions_secret" "cosmosdb_connectionstring" {
   repository      = "mikkelhm-f1"
   secret_name     = "COSMOSDB_PRIMARY_MASTER_KEY"
-  plaintext_value = azurerm_cosmosdb_account.cosmosdb.primary_master_key
+  plaintext_value = azurerm_cosmosdb_account.cosmosdb.primary_key
 }
 
 # Store Cosmosdb connection details
