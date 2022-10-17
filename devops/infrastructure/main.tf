@@ -107,3 +107,24 @@ resource "azurerm_linux_function_app" "fa-functions-mikkelhm-f1" {
     "FUNCTIONS_WORKER_RUNTIME" = "dotnet"
   }
 }
+
+resource "azurerm_cosmosdb_account" "cosmosdb" {
+  name                      = "mikkelhm-f1-cosmosdb"
+  resource_group_name       = azurerm_resource_group.rg-mikkelhm-f1.name
+  location                  = azurerm_resource_group.rg-mikkelhm-f1.location
+  offer_type                = "Standard"
+  kind                      = "GlobalDocumentDB"
+  enable_automatic_failover = false
+  enable_free_tier          = true
+
+  consistency_policy {
+    consistency_level       = "Session"
+    max_interval_in_seconds = 5
+    max_staleness_prefix    = 100
+  }
+
+  geo_location {
+    location          = data.azurerm_resource_group.rg-mikkelhm-f1.location
+    failover_priority = 0
+  }
+}
