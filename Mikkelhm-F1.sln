@@ -5,9 +5,9 @@ VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mikkelhm-F1.Functions", "src\Mikkelhm-F1.Functions\Mikkelhm-F1.Functions.csproj", "{1E95FB38-D785-470D-810D-9352C0CA0B63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mikkelhm-F1.Functions.Core", "src\Mikkelhm-F1.Functions.Core\Mikkelhm-F1.Functions.Core.csproj", "{23D08662-5DF8-430F-B4BB-CB243BDDA72D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mikkelhm-F1.Core", "src\Mikkelhm-F1.Functions.Core\Mikkelhm-F1.Core.csproj", "{23D08662-5DF8-430F-B4BB-CB243BDDA72D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mikkelhm-F1-Functions.Tests", "tests\Mikkelhm-F1-Functions.Tests\Mikkelhm-F1-Functions.Tests.csproj", "{C5855E95-E6D6-49EE-BE41-302BF3284D21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mikkelhm-F1-Functions.Tests", "tests\Mikkelhm-F1-Functions.Tests\Mikkelhm-F1-Functions.Tests.csproj", "{C5855E95-E6D6-49EE-BE41-302BF3284D21}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

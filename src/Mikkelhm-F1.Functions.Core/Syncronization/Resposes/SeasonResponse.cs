@@ -1,8 +1,8 @@
-﻿using Mikkelhm_F1.Functions.Core.Syncronization.Models;
+﻿using Mikkelhm_F1.Core.Syncronization.Models;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Mikkelhm_F1.Functions.Core.Syncronization.Resposes;
+namespace Mikkelhm_F1.Core.Syncronization.Resposes;
 
 public class SeasonResponse : BaseData
 {

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Mikkelhm_F1.Functions.Core.Syncronization.Models;
+namespace Mikkelhm_F1.Core.Syncronization.Models;
 
 public class Season
 {

@@ -1,4 +1,4 @@
-﻿namespace Mikkelhm_F1.Functions.Core.Syncronization;
+﻿namespace Mikkelhm_F1.Core.Syncronization;
 
 public class Constants
 {

@@ -1,12 +1,12 @@
-﻿using Mikkelhm_F1.Functions.Core.Syncronization.Models;
-using Mikkelhm_F1.Functions.Core.Syncronization.Resposes;
+﻿using Mikkelhm_F1.Core.Syncronization.Models;
+using Mikkelhm_F1.Core.Syncronization.Resposes;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Mikkelhm_F1.Functions.Core.Syncronization;
+namespace Mikkelhm_F1.Core.Syncronization;
 
 public class DataSyncOrchestrator
 {
