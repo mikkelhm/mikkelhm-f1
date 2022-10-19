@@ -17,7 +17,7 @@ resource "azurerm_resource_group" "rg-mikkelhm-f1" {
 
 # Application Insights
 resource "azurerm_log_analytics_workspace" "law-mikkelhm-f1" {
-  name                = "law-mikkelhm-f1"
+  name                = "law-${var.main_identifier}"
   location            = azurerm_resource_group.rg-mikkelhm-f1.location
   resource_group_name = azurerm_resource_group.rg-mikkelhm-f1.name
   sku                 = "PerGB2018"
@@ -25,7 +25,7 @@ resource "azurerm_log_analytics_workspace" "law-mikkelhm-f1" {
 }
 
 resource "azurerm_application_insights" "ai-mikkelhm-f1" {
-  name                = "ai-mikkelhm-f1"
+  name                = "ai-${var.main_identifier}"
   location            = azurerm_resource_group.rg-mikkelhm-f1.location
   resource_group_name = azurerm_resource_group.rg-mikkelhm-f1.name
   workspace_id        = azurerm_log_analytics_workspace.law-mikkelhm-f1.id
@@ -34,7 +34,7 @@ resource "azurerm_application_insights" "ai-mikkelhm-f1" {
 
 # Create the Static Webapp
 resource "azurerm_static_site" "ss-mikkelhm-f1" {
-  name                = "ss-mikkelhm-f1"
+  name                = "ss-${var.main_identifier}"
   resource_group_name = azurerm_resource_group.rg-mikkelhm-f1.name
   location            = "West Europe"
 }
@@ -82,7 +82,7 @@ resource "azurerm_storage_account" "sa-functions-mikkelhm-f1" {
 
 # Create a app plan that the functions app can run on
 resource "azurerm_service_plan" "ap-functions-mikkelhm-f1" {
-  name                = "asp-func-mikkelhm-f1"
+  name                = "asp-func-${var.main_identifier}"
   resource_group_name = azurerm_resource_group.rg-mikkelhm-f1.name
   location            = azurerm_resource_group.rg-mikkelhm-f1.location
   os_type             = "Linux"
@@ -91,7 +91,7 @@ resource "azurerm_service_plan" "ap-functions-mikkelhm-f1" {
 
 # Create the functions app
 resource "azurerm_linux_function_app" "fa-functions-mikkelhm-f1" {
-  name                = "azfunc-mikkelhm-f1"
+  name                = "azfunc-${var.main_identifier}"
   resource_group_name = azurerm_resource_group.rg-mikkelhm-f1.name
   location            = azurerm_resource_group.rg-mikkelhm-f1.location
 
@@ -109,7 +109,7 @@ resource "azurerm_linux_function_app" "fa-functions-mikkelhm-f1" {
 }
 
 resource "azurerm_cosmosdb_account" "cosmosdb-mikkelhm-f1" {
-  name                      = "cosdb-mikkelhm-f1"
+  name                      = "cosdb-${var.main_identifier}"
   resource_group_name       = azurerm_resource_group.rg-mikkelhm-f1.name
   location                  = azurerm_resource_group.rg-mikkelhm-f1.location
   offer_type                = "Standard"
