@@ -15,17 +15,11 @@ resource "azurerm_application_insights" "ai-mikkelhm-f1" {
   application_type    = "web"
 }
 
-# 8760 hours in a year, expires in 5 years
-locals {
-  expiration_date = timeadd(time_static.now.rfc3339, "${tostring(8760 * 5)}h")
-}
-
 resource "azurerm_key_vault_secret" "kv-ai-instrumentation-key" {
   key_vault_id = azurerm_key_vault.kv.id
 
   name            = "ApplicationInsightsInstrumentationKey"
   value           = azurerm_application_insights.ai-mikkelhm-f1.instrumentation_key
-  expiration_date = local.expiration_date
 }
 
 resource "azurerm_app_configuration_key" "appcfg-ai-instrumentation-key" {
