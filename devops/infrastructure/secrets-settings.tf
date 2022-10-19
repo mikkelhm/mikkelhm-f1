@@ -1,6 +1,6 @@
 # KeyVault and AppConfiguration
 
-resource "azurerm_app_configuration" "appcfg_primary" {
+resource "azurerm_app_configuration" "appcfg" {
   name                = "appcfg-${var.main_identifier}"
   resource_group_name = var.main_resourcegroup
   location            = var.default_location
