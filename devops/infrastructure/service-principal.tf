@@ -1,6 +1,5 @@
 resource "azuread_application" "ad_app" {
   display_name    = "sp-mikkelhm-f1"
-  identifier_uris = ["http://f1.madsn.dk/mikkelhm-f1"]
   web {
     homepage_url  = "http://f1.madsn.dk"
     redirect_uris = ["http://f1.madsn.dk/mikkelhm-f1"]
