@@ -5,3 +5,7 @@ azure_client_secret   = "#{azure_client_secret}#"
 cloudflare_zone_id    = "#{cloudflare_zone_id}#"
 cloudflare_api_token  = "#{cloudflare_api_token}#"
 github_token          = "#{github_token}#"
+
+main_identifier    = "mikkelhm-f1"
+main_resourcegroup = "rg-mikkelhm-f1"
+default_location   = "westeurope"

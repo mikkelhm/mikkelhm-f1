@@ -27,3 +27,15 @@ variable "cloudflare_api_token" {
 variable "github_token" {
   description = "Token that can edit in github"
 }
+
+variable "main_identifier" {
+  description = "Main identifier, for easy access - mikkelhm-f1"
+}
+
+variable "main_resourcegroup" {
+  description = "The main resource group"
+}
+
+variable "default_location" {
+  description = "the default location"
+}
