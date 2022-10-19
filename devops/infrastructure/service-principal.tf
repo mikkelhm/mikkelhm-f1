@@ -43,7 +43,7 @@ locals {
       role_definition_name = "Key Vault Secrets User"
     },
     "appcfg_access" = {
-      scope                = azurerm_app_configuration.appcfg_primary.id
+      scope                = azurerm_app_configuration.appcfg.id
       role_definition_name = "App Configuration Data Reader"
     },
   }
