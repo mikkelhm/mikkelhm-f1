@@ -10,7 +10,6 @@ resource "azuread_application" "ad_app" {
   }
 }
 
-
 resource "azuread_service_principal" "sp" {
   application_id               = azuread_application.ad_app.application_id
   app_role_assignment_required = false
