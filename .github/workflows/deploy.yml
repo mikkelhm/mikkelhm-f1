@@ -142,7 +142,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BUILD_OUTPUT_PATH: '${{ github.workspace }}/build-artifacts'
-      AZURE_RESOURCE_GROUP_NAME: 'mikkelhm-f1'
+      AZURE_RESOURCE_GROUP_NAME: 'rg-mikkelhm-f1'
       AZURE_FUNCTIONAPP_NAME: 'mikkelhm-f1-functions-app'
       FUNCTIONS_PACKAGE_NAME: 'az-func.zip'
 
