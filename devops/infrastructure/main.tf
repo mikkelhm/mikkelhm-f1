@@ -17,7 +17,7 @@ resource "azurerm_resource_group" "rg-mikkelhm-f1" {
 
 # Application Insights
 resource "azurerm_log_analytics_workspace" "law-mikkelhm-f1" {
-  name                = "mikkelhm-f1-law"
+  name                = "law-mikkelhm-f1"
   location            = azurerm_resource_group.rg-mikkelhm-f1.location
   resource_group_name = azurerm_resource_group.rg-mikkelhm-f1.name
   sku                 = "PerGB2018"
@@ -25,7 +25,7 @@ resource "azurerm_log_analytics_workspace" "law-mikkelhm-f1" {
 }
 
 resource "azurerm_application_insights" "ai-mikkelhm-f1" {
-  name                = "mikkelhm-f1-ai"
+  name                = "ai-mikkelhm-f1"
   location            = azurerm_resource_group.rg-mikkelhm-f1.location
   resource_group_name = azurerm_resource_group.rg-mikkelhm-f1.name
   workspace_id        = azurerm_log_analytics_workspace.law-mikkelhm-f1.id
@@ -34,7 +34,7 @@ resource "azurerm_application_insights" "ai-mikkelhm-f1" {
 
 # Create the Static Webapp
 resource "azurerm_static_site" "ss-mikkelhm-f1" {
-  name                = "mikkelhm-f1"
+  name                = "ss-mikkelhm-f1"
   resource_group_name = azurerm_resource_group.rg-mikkelhm-f1.name
   location            = "West Europe"
 }
@@ -73,7 +73,7 @@ resource "cloudflare_record" "cf-cname-f1-mikkelhm-f1" {
 
 # Create a Storage account for the functions app to tuse
 resource "azurerm_storage_account" "sa-functions-mikkelhm-f1" {
-  name                     = "mikkelhmf1safunctions"
+  name                     = "safuncmikkelhmf1"
   resource_group_name      = azurerm_resource_group.rg-mikkelhm-f1.name
   location                 = azurerm_resource_group.rg-mikkelhm-f1.location
   account_tier             = "Standard"
@@ -82,7 +82,7 @@ resource "azurerm_storage_account" "sa-functions-mikkelhm-f1" {
 
 # Create a app plan that the functions app can run on
 resource "azurerm_service_plan" "ap-functions-mikkelhm-f1" {
-  name                = "mikkelhm-f1-functions-plan"
+  name                = "asp-func-mikkelhm-f1"
   resource_group_name = azurerm_resource_group.rg-mikkelhm-f1.name
   location            = azurerm_resource_group.rg-mikkelhm-f1.location
   os_type             = "Linux"
@@ -91,7 +91,7 @@ resource "azurerm_service_plan" "ap-functions-mikkelhm-f1" {
 
 # Create the functions app
 resource "azurerm_linux_function_app" "fa-functions-mikkelhm-f1" {
-  name                = "mikkelhm-f1-functions-app"
+  name                = "azfunc-mikkelhm-f1"
   resource_group_name = azurerm_resource_group.rg-mikkelhm-f1.name
   location            = azurerm_resource_group.rg-mikkelhm-f1.location
 
@@ -108,8 +108,8 @@ resource "azurerm_linux_function_app" "fa-functions-mikkelhm-f1" {
   }
 }
 
-resource "azurerm_cosmosdb_account" "cosmosdb" {
-  name                      = "mikkelhm-f1-cosmosdb"
+resource "azurerm_cosmosdb_account" "cosmosdb-mikkelhm-f1" {
+  name                      = "cosdb-mikkelhm-f1"
   resource_group_name       = azurerm_resource_group.rg-mikkelhm-f1.name
   location                  = azurerm_resource_group.rg-mikkelhm-f1.location
   offer_type                = "Standard"
@@ -133,12 +133,12 @@ resource "azurerm_cosmosdb_account" "cosmosdb" {
 resource "github_actions_secret" "cosmosdb_connectionstring" {
   repository      = "mikkelhm-f1"
   secret_name     = "COSMOSDB_PRIMARY_MASTER_KEY"
-  plaintext_value = azurerm_cosmosdb_account.cosmosdb.primary_key
+  plaintext_value = azurerm_cosmosdb_account.cosmosdb-mikkelhm-f1.primary_key
 }
 
 # Store Cosmosdb connection details
 resource "github_actions_secret" "cosmosdb_endpoint" {
   repository      = "mikkelhm-f1"
   secret_name     = "COSMOSDB_ENDPOINT"
-  plaintext_value = azurerm_cosmosdb_account.cosmosdb.endpoint
+  plaintext_value = azurerm_cosmosdb_account.cosmosdb-mikkelhm-f1.endpoint
 }

@@ -143,7 +143,7 @@ jobs:
     env:
       BUILD_OUTPUT_PATH: '${{ github.workspace }}/build-artifacts'
       AZURE_RESOURCE_GROUP_NAME: 'rg-mikkelhm-f1'
-      AZURE_FUNCTIONAPP_NAME: 'mikkelhm-f1-functions-app'
+      AZURE_FUNCTIONAPP_NAME: 'azfunc-mikkelhm-f1'
       FUNCTIONS_PACKAGE_NAME: 'az-func.zip'
 
     permissions:
