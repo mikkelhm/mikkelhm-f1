@@ -18,8 +18,8 @@ resource "azurerm_application_insights" "ai-mikkelhm-f1" {
 resource "azurerm_key_vault_secret" "kv-ai-instrumentation-key" {
   key_vault_id = azurerm_key_vault.kv.id
 
-  name            = "ApplicationInsightsInstrumentationKey"
-  value           = azurerm_application_insights.ai-mikkelhm-f1.instrumentation_key
+  name  = "ApplicationInsightsInstrumentationKey"
+  value = azurerm_application_insights.ai-mikkelhm-f1.instrumentation_key
 }
 
 resource "azurerm_app_configuration_key" "appcfg-ai-instrumentation-key" {
