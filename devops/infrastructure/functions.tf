@@ -34,3 +34,17 @@ resource "azurerm_linux_function_app" "fa-functions-mikkelhm-f1" {
     "FUNCTIONS_WORKER_RUNTIME" = "dotnet"
   }
 }
+
+# Store a Static WebApp deployment token
+resource "github_actions_secret" "functions_app_resourcegroup" {
+  repository      = "mikkelhm-f1"
+  secret_name     = "AZURE_FUNCTIONS_RESOURCE_GROUP_NAME"
+  plaintext_value = azurerm_linux_function_app.fa-functions-mikkelhm-f1.resource_group_name
+}
+
+# Store a Static WebApp deployment token
+resource "github_actions_secret" "function_app_name" {
+  repository      = "mikkelhm-f1"
+  secret_name     = "AZURE_FUNCTIONS_APP_NAME"
+  plaintext_value = azurerm_linux_function_app.fa-functions-mikkelhm-f1.name
+}

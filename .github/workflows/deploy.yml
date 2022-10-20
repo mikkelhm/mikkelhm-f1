@@ -142,8 +142,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BUILD_OUTPUT_PATH: '${{ github.workspace }}/build-artifacts'
-      AZURE_RESOURCE_GROUP_NAME: 'rg-mikkelhm-f1'
-      AZURE_FUNCTIONAPP_NAME: 'azfunc-mikkelhm-f1'
+      AZURE_RESOURCE_GROUP_NAME: ${{ secrets.AZURE_FUNCTIONS_RESOURCE_GROUP_NAME }}
+      AZURE_FUNCTIONAPP_NAME: ${{ secrets.AZURE_FUNCTIONS_APP_NAME }}
       FUNCTIONS_PACKAGE_NAME: 'az-func.zip'
 
     permissions:
@@ -207,6 +207,6 @@ jobs:
       - name: Depoy the functions app
         uses: Azure/functions-action@v1
         with:
-          app-name: azfunc-mikkelhm-f1
+          app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
           package: ${{ env.BUILD_OUTPUT_PATH }}/${{ env.FUNCTIONS_PACKAGE_NAME }}
           publish-profile: ${{ steps.fncapp.outputs.pubprofile }}
