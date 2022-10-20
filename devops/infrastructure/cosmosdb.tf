@@ -19,16 +19,22 @@ resource "azurerm_cosmosdb_account" "cosmosdb-mikkelhm-f1" {
   }
 }
 
-# Store Cosmosdb connection details
-resource "github_actions_secret" "cosmosdb_connectionstring" {
-  repository      = "mikkelhm-f1"
-  secret_name     = "COSMOSDB_PRIMARY_MASTER_KEY"
-  plaintext_value = azurerm_cosmosdb_account.cosmosdb-mikkelhm-f1.primary_key
+resource "azurerm_key_vault_secret" "kv-cosmosdb-primary-key" {
+  key_vault_id = azurerm_key_vault.kv.id
+
+  name  = "CosmosDbPrimaryKey"
+  value = azurerm_cosmosdb_account.cosmosdb-mikkelhm-f1.primary_key
 }
 
-# Store Cosmosdb connection details
-resource "github_actions_secret" "cosmosdb_endpoint" {
-  repository      = "mikkelhm-f1"
-  secret_name     = "COSMOSDB_ENDPOINT"
-  plaintext_value = azurerm_cosmosdb_account.cosmosdb-mikkelhm-f1.endpoint
+resource "azurerm_app_configuration_key" "appcfg-cosmosdb-primary-key" {
+  configuration_store_id = azurerm_app_configuration.appcfg.id
+  key                    = "CosmosDbPrimaryKey"
+  type                   = "vault"
+  vault_key_reference    = azurerm_key_vault_secret.kv-cosmosdb-primary-key.id
+}
+
+resource "azurerm_app_configuration_key" "appcfg-cosmosdb-endpoint" {
+  configuration_store_id = azurerm_app_configuration.appcfg.id
+  key                    = "CosmosDbEndpoint"
+  value                  = azurerm_cosmosdb_account.cosmosdb-mikkelhm-f1.endpoint
 }
