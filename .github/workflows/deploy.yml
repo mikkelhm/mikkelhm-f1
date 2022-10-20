@@ -215,6 +215,12 @@ jobs:
         uses: azure/appservice-settings@v1
         with:
           app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-          app-settings-json: '{"AZURE_CLIENTID":"${{ secrets.AZURE_SP_RUNTIME_CLIENT_ID }}"}' 
-          general-settings-json: '{"alwaysOn": "false", "webSocketsEnabled": "true"}' #'General configuration settings as Key Value pairs'
+          app-settings-json: |
+            [
+              {
+                "name":"AZURE_CLIENTID",
+                "value": "${{ secrets.AZURE_SP_RUNTIME_CLIENT_ID }}",
+                "slotSetting": false
+              }
+            ] 
         id: settings
