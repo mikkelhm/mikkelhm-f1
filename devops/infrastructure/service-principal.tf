@@ -55,3 +55,15 @@ resource "azurerm_role_assignment" "role_assignments" {
   role_definition_name = each.value.role_definition_name
   principal_id         = azuread_service_principal.sp.object_id
 }
+
+resource "github_actions_secret" "runtime_sp_app_id" {
+  repository      = "mikkelhm-f1"
+  secret_name     = "AZURE_SP_RUNTIME_CLIENT_ID"
+  plaintext_value = azuread_service_principal.sp.application_id
+}
+
+resource "github_actions_secret" "runtime_sp_secret" {
+  repository      = "mikkelhm-f1"
+  secret_name     = "AZURE_SP_RUNTIME_CLIENT_SECRET"
+  plaintext_value = azuread_service_principal_password.sp_pass.value
+}

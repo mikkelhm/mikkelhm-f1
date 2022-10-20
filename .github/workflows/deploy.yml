@@ -142,8 +142,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BUILD_OUTPUT_PATH: '${{ github.workspace }}/build-artifacts'
-      AZURE_RESOURCE_GROUP_NAME: ${{ secrets.AZURE_FUNCTIONS_RESOURCE_GROUP_NAME }}
-      AZURE_FUNCTIONAPP_NAME: ${{ secrets.AZURE_FUNCTIONS_APP_NAME }}
+      AZURE_RESOURCE_GROUP_NAME: '${{ secrets.AZURE_FUNCTIONS_RESOURCE_GROUP_NAME }}'
+      AZURE_FUNCTIONAPP_NAME: '${{ secrets.AZURE_FUNCTIONS_APP_NAME }}'
       FUNCTIONS_PACKAGE_NAME: 'az-func.zip'
 
     permissions:

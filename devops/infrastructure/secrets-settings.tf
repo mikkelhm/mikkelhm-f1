@@ -10,6 +10,12 @@ resource "azurerm_app_configuration" "appcfg" {
   }
 }
 
+resource "github_actions_secret" "appcfg_endpoint" {
+  repository      = "mikkelhm-f1"
+  secret_name     = "APPCONFIGURATION_ENDPOINT"
+  plaintext_value = azurerm_app_configuration.appcfg.endpoint
+}
+
 // Keyvault resource for services within the bounded context
 // NOTE - Where do we populate actual values from?
 resource "azurerm_key_vault" "kv" {
