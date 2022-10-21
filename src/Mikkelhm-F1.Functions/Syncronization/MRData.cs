@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Mikkelhm_F1.Core.Syncronization;
+namespace Mikkelhm_F1.Functions.Syncronization;
 
 public abstract class BaseData
 {

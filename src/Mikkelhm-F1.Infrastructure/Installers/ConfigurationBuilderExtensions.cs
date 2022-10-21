@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Mikkelhm_F1.Infrastructure.Installers
 {
-    public static class AzureAppConfigurationInstaller
+    public static class ConfigurationBuilderExtensions
     {
         public static IConfigurationBuilder InstallAzureAppConfiguration(this IConfigurationBuilder config, string applicationRootPath)
         {

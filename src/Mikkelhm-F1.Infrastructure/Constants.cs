@@ -15,6 +15,11 @@
                 public const string ContainerId = "Races";
                 public const string PartitionKeyPath = "/partitionKey";
             }
+            public static class Drivers
+            {
+                public const string ContainerId = "Drivers";
+                public const string PartitionKeyPath = "/partitionKey";
+            }
         }
 
         public static class EnvironmentVariableNames

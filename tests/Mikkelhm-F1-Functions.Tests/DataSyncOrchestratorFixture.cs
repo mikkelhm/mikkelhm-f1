@@ -1,4 +1,4 @@
-using Mikkelhm_F1.Core.Syncronization;
+using Mikkelhm_F1.Functions.Syncronization;
 
 namespace Mikkelhm_F1_Functions.Tests
 {
@@ -10,7 +10,7 @@ namespace Mikkelhm_F1_Functions.Tests
         {
             var httpClient = new HttpClient();
             httpClient.BaseAddress = new Uri("http://ergast.com");
-            var orchestrator = new DataSyncOrchestrator(httpClient);
+            var orchestrator = new DataSyncOrchestrator(httpClient, null, null);
             var seasons = await orchestrator.GetSeasons();
             Assert.IsTrue(seasons.Any());
         }

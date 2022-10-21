@@ -10,12 +10,17 @@ namespace Mikkelhm_F1.Infrastructure.Installers
         {
             var serviceNameUrl = configuration[Constants.EnvironmentVariableNames.CosmosDbServiceEndpoint];
             var authKey = configuration[Constants.EnvironmentVariableNames.CosmosDbServiceAuthKey];
-            CosmosClient client = new CosmosClient(serviceNameUrl, authKey);
+            CosmosClient client = new CosmosClient(serviceNameUrl, authKey, new CosmosClientOptions()
+            {
+                AllowBulkExecution = true,
+                SerializerOptions = new CosmosSerializationOptions { PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase }
+            });
 
             var database = CreateDatabaseIfNotExists(client);
 
             CreateContainerIfNotExists(database, Constants.CosmosDbSettings.Seasons.ContainerId, Constants.CosmosDbSettings.Seasons.PartitionKeyPath);
             CreateContainerIfNotExists(database, Constants.CosmosDbSettings.Races.ContainerId, Constants.CosmosDbSettings.Races.PartitionKeyPath);
+            CreateContainerIfNotExists(database, Constants.CosmosDbSettings.Drivers.ContainerId, Constants.CosmosDbSettings.Drivers.PartitionKeyPath);
 
             services.AddSingleton<CosmosClient>(client);
         }
@@ -26,11 +31,10 @@ namespace Mikkelhm_F1.Infrastructure.Installers
             return response.Database;
         }
 
-        private static Container CreateContainerIfNotExists(Database database, string containerId, string partitionKey)
+        private static Container CreateContainerIfNotExists(Database database, string containerId, string partitionKeyPath)
         {
-            var response = database.CreateContainerIfNotExistsAsync(containerId
-                , partitionKey
-                ).Result;
+            var response = database.CreateContainerIfNotExistsAsync(
+                new ContainerProperties(containerId, partitionKeyPath)).Result;
             return response.Container;
         }
     }
