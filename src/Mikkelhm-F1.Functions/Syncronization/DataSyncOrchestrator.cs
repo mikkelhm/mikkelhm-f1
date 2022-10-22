@@ -16,14 +16,17 @@ public class DataSyncOrchestrator : IDataSyncronizer
 {
     private readonly HttpClient _httpClient;
     private readonly ISeasonRepository _seasonRepository;
+    private readonly IDriverRepository _driverRepository;
     private readonly ILogger _logger;
 
     public DataSyncOrchestrator(HttpClient httpClient,
         ISeasonRepository seasonRepository,
+        IDriverRepository driverRepository,
         ILogger logger)
     {
         _httpClient = httpClient;
         _seasonRepository = seasonRepository;
+        _driverRepository = driverRepository;
         _logger = logger;
     }
 
@@ -67,5 +70,47 @@ public class DataSyncOrchestrator : IDataSyncronizer
         };
         var seasonResponse = JsonSerializer.Deserialize<Root<SeasonResponse>>(responseString, serializeOptions);
         return seasonResponse;
+    }
+
+    public async Task SyncDrivers()
+    {
+        var drivers = await GetAllDrivers();
+        var allCurrentDrivers = await _driverRepository.GetAll();
+        foreach (var driver in drivers)
+        {
+            if (allCurrentDrivers.Any(x => x.DriverId == driver.DriverId))
+                continue;
+            await _driverRepository.Save(new Domain.Driver(Guid.NewGuid().ToString(), driver.GivenName, driver.FamilyName, driver.DateOfBirth, driver.Nationality, driver.DriverId, driver.Url));
+            _logger.LogInformation($"Driver: {driver.GivenName} {driver.FamilyName}, synced");
+        }
+    }
+
+    public async Task<List<Driver>> GetAllDrivers()
+    {
+        var allSeasons = new List<Driver>();
+        var offset = 0;
+        while (true)
+        {
+            var seasonResponse = await GetDrivers(offset);
+            if (seasonResponse.MRData.DriverTable.Drivers.Count == 0)
+                break;
+
+            allSeasons.AddRange(seasonResponse.MRData.DriverTable.Drivers);
+            offset = allSeasons.Count;
+        }
+        return allSeasons;
+    }
+
+    public async Task<Root<DriverResponse>> GetDrivers(int offset)
+    {
+        var response = await _httpClient.GetAsync($"{Constants.SyncronizationEndpoints.Drivers}?offset={offset}");
+        var responseString = await response.Content.ReadAsStringAsync();
+        var serializeOptions = new JsonSerializerOptions
+        {
+            NumberHandling = JsonNumberHandling.AllowReadingFromString,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        };
+        var driverResponse = JsonSerializer.Deserialize<Root<DriverResponse>>(responseString, serializeOptions);
+        return driverResponse;
     }
 }
