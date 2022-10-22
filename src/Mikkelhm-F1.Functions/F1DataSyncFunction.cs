@@ -17,7 +17,7 @@ namespace Mikkelhm_F1.Functions
         }
 
         [FunctionName(nameof(F1DataSyncFunction))]
-        public async Task Run([TimerTrigger("0 */5 * * * *")] TimerInfo myTimer, ILogger log)
+        public async Task Run([TimerTrigger("0 0 * * * *")] TimerInfo myTimer, ILogger log)
         {
             await _dataSyncronizer.SyncSeasons();
         }
