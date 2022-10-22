@@ -28,6 +28,8 @@
             public const string CosmosDbServiceAuthKey = "CosmosDbPrimaryKey";
 
             public const string AppConfigurationEndpoint = "APPCONFIGURATION_ENDPOINT";
+
+            public const string ApplicationInsightsInstrumentationKey = "ApplicationInsightsInstrumentationKey";
         }
     }
 }

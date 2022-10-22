@@ -36,7 +36,7 @@ public class DataSyncOrchestrator : IDataSyncronizer
             if (allCurrentSeasons.Any(x => x.Year == season.Year))
                 continue;
             await _seasonRepository.Save(new Domain.Season(Guid.NewGuid().ToString(), season.Year, season.Url));
-            //_logger.LogInformation($"Season: {season.Year}, synced");
+            _logger.LogInformation($"Season: {season.Year}, synced");
         }
     }
 

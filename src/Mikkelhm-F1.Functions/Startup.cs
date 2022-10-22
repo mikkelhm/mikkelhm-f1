@@ -31,5 +31,10 @@ public class Startup : FunctionsStartup
         var provider = builder.Services.BuildServiceProvider();
         var configuration = provider.GetRequiredService<IConfiguration>();
         builder.Services.InstallCosmosDb(configuration);
+
+        var instrumentationKey = configuration[Infrastructure.Constants.EnvironmentVariableNames.ApplicationInsightsInstrumentationKey];
+        if (string.IsNullOrEmpty(instrumentationKey) == false)
+            builder.Services.AddApplicationInsightsTelemetry(instrumentationKey);
+
     }
 }
