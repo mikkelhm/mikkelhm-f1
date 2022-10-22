@@ -29,7 +29,7 @@ public class DataSyncOrchestrator : IDataSyncronizer
 
     public async Task SyncSeasons()
     {
-        var seasons = await GetSeasons();
+        var seasons = await GetAllSeasons();
         var allCurrentSeasons = await _seasonRepository.GetAll();
         foreach (var season in seasons)
         {
@@ -40,9 +40,25 @@ public class DataSyncOrchestrator : IDataSyncronizer
         }
     }
 
-    public async Task<List<Season>> GetSeasons()
+    public async Task<List<Season>> GetAllSeasons()
     {
-        var response = await _httpClient.GetAsync(Constants.SyncronizationEndpoints.Seasons);
+        var allSeasons = new List<Season>();
+        var offset = 0;
+        while (true)
+        {
+            var seasonResponse = await GetSeasons(offset);
+            if (seasonResponse.MRData.SeasonTable.Seasons.Count == 0)
+                break;
+
+            allSeasons.AddRange(seasonResponse.MRData.SeasonTable.Seasons);
+            offset = allSeasons.Count;
+        }
+        return allSeasons;
+    }
+
+    public async Task<Root<SeasonResponse>> GetSeasons(int offset)
+    {
+        var response = await _httpClient.GetAsync($"{Constants.SyncronizationEndpoints.Seasons}?offset={offset}");
         var responseString = await response.Content.ReadAsStringAsync();
         var serializeOptions = new JsonSerializerOptions
         {
@@ -50,6 +66,6 @@ public class DataSyncOrchestrator : IDataSyncronizer
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         };
         var seasonResponse = JsonSerializer.Deserialize<Root<SeasonResponse>>(responseString, serializeOptions);
-        return seasonResponse.MRData.SeasonTable.Seasons;
+        return seasonResponse;
     }
 }

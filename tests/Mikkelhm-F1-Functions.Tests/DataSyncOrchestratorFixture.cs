@@ -11,7 +11,7 @@ namespace Mikkelhm_F1_Functions.Tests
             var httpClient = new HttpClient();
             httpClient.BaseAddress = new Uri("http://ergast.com");
             var orchestrator = new DataSyncOrchestrator(httpClient, null, null);
-            var seasons = await orchestrator.GetSeasons();
+            var seasons = await orchestrator.GetAllSeasons();
             Assert.IsTrue(seasons.Any());
         }
     }
