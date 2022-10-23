@@ -55,13 +55,15 @@ public class DataSyncOrchestrator : IDataSyncronizer
 
             allSeasons.AddRange(seasonResponse.MRData.SeasonTable.Seasons);
             offset = allSeasons.Count;
+            // We have fair usage limitations on the api - max 4 requests pr second, 200 requests pr hour
+            await Task.Delay(TimeSpan.FromSeconds(1));
         }
         return allSeasons;
     }
 
     public async Task<Root<SeasonResponse>> GetSeasons(int offset)
     {
-        var response = await _httpClient.GetAsync($"{Constants.SyncronizationEndpoints.Seasons}?offset={offset}");
+        var response = await _httpClient.GetAsync($"{Constants.SyncronizationEndpoints.Seasons}?limit=1000&offset={offset}");
         var responseString = await response.Content.ReadAsStringAsync();
         var serializeOptions = new JsonSerializerOptions
         {
@@ -97,13 +99,15 @@ public class DataSyncOrchestrator : IDataSyncronizer
 
             allSeasons.AddRange(seasonResponse.MRData.DriverTable.Drivers);
             offset = allSeasons.Count;
+            // We have fair usage limitations on the api - max 4 requests pr second, 200 requests pr hour
+            await Task.Delay(TimeSpan.FromSeconds(1));
         }
         return allSeasons;
     }
 
     public async Task<Root<DriverResponse>> GetDrivers(int offset)
     {
-        var response = await _httpClient.GetAsync($"{Constants.SyncronizationEndpoints.Drivers}?offset={offset}");
+        var response = await _httpClient.GetAsync($"{Constants.SyncronizationEndpoints.Drivers}?limit=1000&offset={offset}");
         var responseString = await response.Content.ReadAsStringAsync();
         var serializeOptions = new JsonSerializerOptions
         {

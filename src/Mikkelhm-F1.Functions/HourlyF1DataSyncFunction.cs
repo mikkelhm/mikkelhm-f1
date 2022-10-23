@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 
 namespace Mikkelhm_F1.Functions
 {
-    public class F1DataSyncFunction
+    public class HourlyF1DataSyncFunction
     {
         private readonly IDataSyncronizer _dataSyncronizer;
 
-        public F1DataSyncFunction(IDataSyncronizer dataSyncronizer)
+        public HourlyF1DataSyncFunction(IDataSyncronizer dataSyncronizer)
         {
             _dataSyncronizer = dataSyncronizer;
         }
 
-        [FunctionName(nameof(F1DataSyncFunction))]
+        [FunctionName(nameof(HourlyF1DataSyncFunction))]
         public async Task Run([TimerTrigger("0 0 * * * *")] TimerInfo myTimer, ILogger log)
         {
-            await _dataSyncronizer.SyncSeasons();
+
         }
     }
 }
