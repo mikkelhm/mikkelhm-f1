@@ -21,6 +21,7 @@ namespace Mikkelhm_F1.Infrastructure.Installers
             CreateContainerIfNotExists(database, Constants.CosmosDbSettings.Seasons.ContainerId, Constants.CosmosDbSettings.Seasons.PartitionKeyPath);
             CreateContainerIfNotExists(database, Constants.CosmosDbSettings.Races.ContainerId, Constants.CosmosDbSettings.Races.PartitionKeyPath);
             CreateContainerIfNotExists(database, Constants.CosmosDbSettings.Drivers.ContainerId, Constants.CosmosDbSettings.Drivers.PartitionKeyPath);
+            CreateContainerIfNotExists(database, Constants.CosmosDbSettings.Circuits.ContainerId, Constants.CosmosDbSettings.Circuits.PartitionKeyPath);
 
             services.AddSingleton<CosmosClient>(client);
         }

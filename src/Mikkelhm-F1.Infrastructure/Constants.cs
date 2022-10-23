@@ -20,6 +20,11 @@
                 public const string ContainerId = "Drivers";
                 public const string PartitionKeyPath = "/partitionKey";
             }
+            public static class Circuits
+            {
+                public const string ContainerId = "Circuits";
+                public const string PartitionKeyPath = "/partitionKey";
+            }
         }
 
         public static class EnvironmentVariableNames
