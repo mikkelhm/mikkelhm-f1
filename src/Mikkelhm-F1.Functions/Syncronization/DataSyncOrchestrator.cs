@@ -17,16 +17,19 @@ public class DataSyncOrchestrator : IDataSyncronizer
     private readonly HttpClient _httpClient;
     private readonly ISeasonRepository _seasonRepository;
     private readonly IDriverRepository _driverRepository;
+    private readonly ICircuitRepository _circuitRepository;
     private readonly ILogger _logger;
 
     public DataSyncOrchestrator(HttpClient httpClient,
         ISeasonRepository seasonRepository,
         IDriverRepository driverRepository,
+        ICircuitRepository circuitRepository,
         ILogger logger)
     {
         _httpClient = httpClient;
         _seasonRepository = seasonRepository;
         _driverRepository = driverRepository;
+        _circuitRepository = circuitRepository;
         _logger = logger;
     }
 
@@ -89,20 +92,20 @@ public class DataSyncOrchestrator : IDataSyncronizer
 
     public async Task<List<Driver>> GetAllDrivers()
     {
-        var allSeasons = new List<Driver>();
+        var allDrivers = new List<Driver>();
         var offset = 0;
         while (true)
         {
-            var seasonResponse = await GetDrivers(offset);
-            if (seasonResponse.MRData.DriverTable.Drivers.Count == 0)
+            var driversResponse = await GetDrivers(offset);
+            if (driversResponse.MRData.DriverTable.Drivers.Count == 0)
                 break;
 
-            allSeasons.AddRange(seasonResponse.MRData.DriverTable.Drivers);
-            offset = allSeasons.Count;
+            allDrivers.AddRange(driversResponse.MRData.DriverTable.Drivers);
+            offset = allDrivers.Count;
             // We have fair usage limitations on the api - max 4 requests pr second, 200 requests pr hour
             await Task.Delay(TimeSpan.FromSeconds(1));
         }
-        return allSeasons;
+        return allDrivers;
     }
 
     public async Task<Root<DriverResponse>> GetDrivers(int offset)
@@ -116,5 +119,50 @@ public class DataSyncOrchestrator : IDataSyncronizer
         };
         var driverResponse = JsonSerializer.Deserialize<Root<DriverResponse>>(responseString, serializeOptions);
         return driverResponse;
+    }
+
+    public async Task SyncCircuits()
+    {
+        var circuits = await GetAllCircuits();
+        var allCurrentCircuits = await _circuitRepository.GetAll();
+        foreach (var driver in circuits)
+        {
+            if (allCurrentCircuits.Any(x => x.CircuitId == driver.CircuitId))
+                continue;
+            await _circuitRepository.Save(new Domain.Circuit(Guid.NewGuid().ToString(), driver.CircuitName, driver.CircuitId, new Domain.Location(double.Parse(driver.Location.Lat), double.Parse(driver.Location.Long), driver.Location.Locality, driver.Location.Country), driver.Url));
+            _logger.LogInformation($"Circuit: {driver.CircuitName}, synced");
+        }
+    }
+
+
+    public async Task<List<Circuit>> GetAllCircuits()
+    {
+        var allCircuits = new List<Circuit>();
+        var offset = 0;
+        while (true)
+        {
+            var circuitsResponse = await GetCircuits(offset);
+            if (circuitsResponse.MRData.CircuitTable.Circuits.Count == 0)
+                break;
+
+            allCircuits.AddRange(circuitsResponse.MRData.CircuitTable.Circuits);
+            offset = allCircuits.Count;
+            // We have fair usage limitations on the api - max 4 requests pr second, 200 requests pr hour
+            await Task.Delay(TimeSpan.FromSeconds(1));
+        }
+        return allCircuits;
+    }
+
+    public async Task<Root<CircuitResponse>> GetCircuits(int offset)
+    {
+        var response = await _httpClient.GetAsync($"{Constants.SyncronizationEndpoints.Circuits}?limit=1000&offset={offset}");
+        var responseString = await response.Content.ReadAsStringAsync();
+        var serializeOptions = new JsonSerializerOptions
+        {
+            NumberHandling = JsonNumberHandling.AllowReadingFromString,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        };
+        var circuitsResponse = JsonSerializer.Deserialize<Root<CircuitResponse>>(responseString, serializeOptions);
+        return circuitsResponse;
     }
 }

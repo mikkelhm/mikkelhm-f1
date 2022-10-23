@@ -22,6 +22,7 @@ namespace Mikkelhm_F1.Functions
 
             await _dataSyncronizer.SyncSeasons();
             await _dataSyncronizer.SyncDrivers();
+            await _dataSyncronizer.SyncCircuits();
         }
     }
 }

@@ -20,6 +20,11 @@ public class CosmosDbDriverRepository : CosmosDbBaseRepository<Driver>, IDriverR
         return await GetByIdInternal(id, Driver.PartitionKeyValue, cancellationToken);
     }
 
+    public async Task<Driver> GetByDriverId(string driverId, CancellationToken cancellationToken = default)
+    {
+        return await FindOneInternal(x => x.PartitionKey == Driver.PartitionKeyValue && x.DriverId == driverId, cancellationToken);
+    }
+
     public async Task<IEnumerable<Driver>> GetAll(CancellationToken cancellationToken = default)
     {
         return await FindInternal(x => x.PartitionKey == Driver.PartitionKeyValue, cancellationToken);
@@ -29,4 +34,5 @@ public class CosmosDbDriverRepository : CosmosDbBaseRepository<Driver>, IDriverR
     {
         await SaveInternal(Driver, Driver.PartitionKeyValue, cancellationToken);
     }
+
 }

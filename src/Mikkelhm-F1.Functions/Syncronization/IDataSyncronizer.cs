@@ -6,5 +6,6 @@ namespace Mikkelhm_F1.Functions.Syncronization
     {
         Task SyncSeasons();
         Task SyncDrivers();
+        Task SyncCircuits();
     }
 }
