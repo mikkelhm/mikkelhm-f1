@@ -13,5 +13,15 @@ public class ServicesInstaller
             new CosmosDbSeasonRepository(c.GetRequiredService<CosmosClient>().GetContainer(
                 Constants.CosmosDbSettings.DatabaseId,
                 Constants.CosmosDbSettings.Seasons.ContainerId)));
+
+        serviceCollection.AddTransient<IDriverRepository>(c =>
+            new CosmosDbDriverRepository(c.GetRequiredService<CosmosClient>().GetContainer(
+                Constants.CosmosDbSettings.DatabaseId,
+                Constants.CosmosDbSettings.Drivers.ContainerId)));
+
+        serviceCollection.AddTransient<ICircuitRepository>(c =>
+            new CosmosDbCircuitRepository(c.GetRequiredService<CosmosClient>().GetContainer(
+                Constants.CosmosDbSettings.DatabaseId,
+                Constants.CosmosDbSettings.Circuits.ContainerId)));
     }
 }

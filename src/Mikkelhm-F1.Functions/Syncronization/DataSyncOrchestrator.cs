@@ -18,13 +18,13 @@ public class DataSyncOrchestrator : IDataSyncronizer
     private readonly ISeasonRepository _seasonRepository;
     private readonly IDriverRepository _driverRepository;
     private readonly ICircuitRepository _circuitRepository;
-    private readonly ILogger _logger;
+    private readonly ILogger<DataSyncOrchestrator> _logger;
 
     public DataSyncOrchestrator(HttpClient httpClient,
         ISeasonRepository seasonRepository,
         IDriverRepository driverRepository,
         ICircuitRepository circuitRepository,
-        ILogger logger)
+        ILogger<DataSyncOrchestrator> logger)
     {
         _httpClient = httpClient;
         _seasonRepository = seasonRepository;

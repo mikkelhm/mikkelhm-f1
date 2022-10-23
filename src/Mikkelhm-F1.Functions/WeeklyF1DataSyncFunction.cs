@@ -19,7 +19,6 @@ namespace Mikkelhm_F1.Functions
         [FunctionName(nameof(WeeklyF1DataSyncFunction))]
         public async Task Run([TimerTrigger("0 0 2 * * MON")] TimerInfo myTimer, ILogger log)
         {
-
             await _dataSyncronizer.SyncSeasons();
             await _dataSyncronizer.SyncDrivers();
             await _dataSyncronizer.SyncCircuits();
