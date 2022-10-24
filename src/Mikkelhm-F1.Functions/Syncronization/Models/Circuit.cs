@@ -1,10 +1,13 @@
-﻿namespace Mikkelhm_F1.Functions.Syncronization.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace Mikkelhm_F1.Functions.Syncronization.Models;
 
 public class Circuit
 {
     public string CircuitId { get; set; } = null!;
     public string CircuitName { get; set; } = null!;
     public string Url { get; set; } = null!;
+    [JsonPropertyName("Location")]
     public Location Location { get; set; } = null!;
 }
 

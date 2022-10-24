@@ -125,12 +125,12 @@ public class DataSyncOrchestrator : IDataSyncronizer
     {
         var circuits = await GetAllCircuits();
         var allCurrentCircuits = await _circuitRepository.GetAll();
-        foreach (var driver in circuits)
+        foreach (var circuit in circuits)
         {
-            if (allCurrentCircuits.Any(x => x.CircuitId == driver.CircuitId))
+            if (allCurrentCircuits.Any(x => x.CircuitId == circuit.CircuitId))
                 continue;
-            await _circuitRepository.Save(new Domain.Circuit(Guid.NewGuid().ToString(), driver.CircuitName, driver.CircuitId, new Domain.Location(double.Parse(driver.Location.Lat), double.Parse(driver.Location.Long), driver.Location.Locality, driver.Location.Country), driver.Url));
-            _logger.LogInformation($"Circuit: {driver.CircuitName}, synced");
+            await _circuitRepository.Save(new Domain.Circuit(Guid.NewGuid().ToString(), circuit.CircuitName, circuit.CircuitId, new Domain.Location(double.Parse(circuit.Location.Lat), double.Parse(circuit.Location.Long), circuit.Location.Locality, circuit.Location.Country), circuit.Url));
+            _logger.LogInformation($"Circuit: {circuit.CircuitName}, synced");
         }
     }
 
