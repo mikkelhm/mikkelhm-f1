@@ -7,3 +7,12 @@ We will try to sync the data up into our own store, so we dont have to hammer th
 Goal:
 
 Show the current season standings and race results
+
+# Infrastructure
+Setup via Terraform
+
+Backend
+`terraform init --backend-config=backend.tfvars`
+
+Plan
+`terraform plan -var-file="variables.tfvars"`
