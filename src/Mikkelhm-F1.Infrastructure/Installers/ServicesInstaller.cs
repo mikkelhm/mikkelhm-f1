@@ -23,5 +23,10 @@ public class ServicesInstaller
             new CosmosDbCircuitRepository(c.GetRequiredService<CosmosClient>().GetContainer(
                 Constants.CosmosDbSettings.DatabaseId,
                 Constants.CosmosDbSettings.Circuits.ContainerId)));
+
+        serviceCollection.AddTransient<IRaceRepository>(c =>
+            new CosmosDbRaceRepository(c.GetRequiredService<CosmosClient>().GetContainer(
+                Constants.CosmosDbSettings.DatabaseId,
+                Constants.CosmosDbSettings.Races.ContainerId)));
     }
 }

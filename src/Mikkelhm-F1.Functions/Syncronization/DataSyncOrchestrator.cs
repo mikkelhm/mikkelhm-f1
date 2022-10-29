@@ -18,18 +18,21 @@ public class DataSyncOrchestrator : IDataSyncronizer
     private readonly ISeasonRepository _seasonRepository;
     private readonly IDriverRepository _driverRepository;
     private readonly ICircuitRepository _circuitRepository;
+    private readonly IRaceRepository _raceRepository;
     private readonly ILogger<DataSyncOrchestrator> _logger;
 
     public DataSyncOrchestrator(HttpClient httpClient,
         ISeasonRepository seasonRepository,
         IDriverRepository driverRepository,
         ICircuitRepository circuitRepository,
+        IRaceRepository raceRepository,
         ILogger<DataSyncOrchestrator> logger)
     {
         _httpClient = httpClient;
         _seasonRepository = seasonRepository;
         _driverRepository = driverRepository;
         _circuitRepository = circuitRepository;
+        _raceRepository = raceRepository;
         _logger = logger;
     }
 
@@ -134,7 +137,6 @@ public class DataSyncOrchestrator : IDataSyncronizer
         }
     }
 
-
     public async Task<List<Circuit>> GetAllCircuits()
     {
         var allCircuits = new List<Circuit>();
@@ -164,5 +166,49 @@ public class DataSyncOrchestrator : IDataSyncronizer
         };
         var circuitsResponse = JsonSerializer.Deserialize<Root<CircuitResponse>>(responseString, serializeOptions);
         return circuitsResponse;
+    }
+
+    public async Task SyncRaces()
+    {
+        var races = await GetAllRaces();
+        var allCurrentRaces = await _raceRepository.GetAll();
+        foreach (var race in races)
+        {
+            if (allCurrentRaces.Any(x => x.RaceDate == race.RaceDate))
+                continue;
+            await _raceRepository.Save(new Domain.Race(Guid.NewGuid().ToString(), race.Year, race.RaceDate, race.Circuit.CircuitId, race.Url));
+            _logger.LogInformation($"Race: {race.Year}, synced");
+        }
+    }
+
+    public async Task<List<Race>> GetAllRaces()
+    {
+        var allRaces = new List<Race>();
+        var offset = 0;
+        while (true)
+        {
+            var racesResponse = await GetRaces(offset);
+            if (racesResponse.MRData.RaceTable.Races.Count == 0)
+                break;
+
+            allRaces.AddRange(racesResponse.MRData.RaceTable.Races);
+            offset = allRaces.Count;
+            // We have fair usage limitations on the api - max 4 requests pr second, 200 requests pr hour
+            await Task.Delay(TimeSpan.FromSeconds(1));
+        }
+        return allRaces;
+    }
+
+    public async Task<Root<RaceResponse>> GetRaces(int offset)
+    {
+        var response = await _httpClient.GetAsync($"{Constants.SyncronizationEndpoints.Races}?limit=1000&offset={offset}");
+        var responseString = await response.Content.ReadAsStringAsync();
+        var serializeOptions = new JsonSerializerOptions
+        {
+            NumberHandling = JsonNumberHandling.AllowReadingFromString,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        };
+        var racesResponse = JsonSerializer.Deserialize<Root<RaceResponse>>(responseString, serializeOptions);
+        return racesResponse;
     }
 }
