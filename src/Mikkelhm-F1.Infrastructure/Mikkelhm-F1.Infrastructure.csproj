@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Mikkelhm-F1.Domain\Mikkelhm-F1.Domain.csproj" />
     <ProjectReference Include="..\Mikkelhm-F1.Functions.Core\Mikkelhm-F1.Domain.csproj" />
   </ItemGroup>
 

@@ -1,11 +1,12 @@
 ﻿using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Mikkelhm_F1.Functions.Syncronization;
 using Mikkelhm_F1.Infrastructure.Installers;
+using Mikkelhm_F1.SyncFunctions;
+using Mikkelhm_F1.SyncFunctions.Syncronization;
 
-[assembly: FunctionsStartup(typeof(Mikkelhm_F1.Functions.Startup))]
-namespace Mikkelhm_F1.Functions;
+[assembly: FunctionsStartup(typeof(Startup))]
+namespace Mikkelhm_F1.SyncFunctions;
 
 public class Startup : FunctionsStartup
 {

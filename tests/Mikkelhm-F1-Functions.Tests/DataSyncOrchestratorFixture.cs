@@ -1,4 +1,4 @@
-using Mikkelhm_F1.Functions.Syncronization;
+using Mikkelhm_F1.SyncFunctions.Syncronization;
 
 namespace Mikkelhm_F1_Functions.Tests
 {

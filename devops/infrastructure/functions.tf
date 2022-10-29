@@ -1,6 +1,6 @@
 # Create a Storage account for the functions app to tuse
-resource "azurerm_storage_account" "sa-functions-mikkelhm-f1" {
-  name                     = "safuncmikkelhmf1"
+resource "azurerm_storage_account" "sa-functions-sync-mikkelhm-f1" {
+  name                     = "safuncsyncmikkelhmf1"
   resource_group_name      = azurerm_resource_group.rg-mikkelhm-f1.name
   location                 = azurerm_resource_group.rg-mikkelhm-f1.location
   account_tier             = "Standard"
@@ -17,13 +17,13 @@ resource "azurerm_service_plan" "ap-functions-mikkelhm-f1" {
 }
 
 # Create the functions app
-resource "azurerm_linux_function_app" "fa-functions-mikkelhm-f1" {
-  name                = "azfunc-${var.main_identifier}"
+resource "azurerm_linux_function_app" "fa-functions-sync-mikkelhm-f1" {
+  name                = "azfunc-${var.main_identifier}-sync"
   resource_group_name = azurerm_resource_group.rg-mikkelhm-f1.name
   location            = azurerm_resource_group.rg-mikkelhm-f1.location
 
-  storage_account_name       = azurerm_storage_account.sa-functions-mikkelhm-f1.name
-  storage_account_access_key = azurerm_storage_account.sa-functions-mikkelhm-f1.primary_access_key
+  storage_account_name       = azurerm_storage_account.sa-functions-sync-mikkelhm-f1.name
+  storage_account_access_key = azurerm_storage_account.sa-functions-sync-mikkelhm-f1.primary_access_key
   service_plan_id            = azurerm_service_plan.ap-functions-mikkelhm-f1.id
 
   site_config {
@@ -38,13 +38,13 @@ resource "azurerm_linux_function_app" "fa-functions-mikkelhm-f1" {
 # Store a Static WebApp deployment token
 resource "github_actions_secret" "functions_app_resourcegroup" {
   repository      = "mikkelhm-f1"
-  secret_name     = "AZURE_FUNCTIONS_RESOURCE_GROUP_NAME"
-  plaintext_value = azurerm_linux_function_app.fa-functions-mikkelhm-f1.resource_group_name
+  secret_name     = "AZURE_FUNCTIONS_SYNC_RESOURCE_GROUP_NAME"
+  plaintext_value = azurerm_linux_function_app.fa-functions-sync-mikkelhm-f1.resource_group_name
 }
 
 # Store a Static WebApp deployment token
 resource "github_actions_secret" "function_app_name" {
   repository      = "mikkelhm-f1"
-  secret_name     = "AZURE_FUNCTIONS_APP_NAME"
-  plaintext_value = azurerm_linux_function_app.fa-functions-mikkelhm-f1.name
+  secret_name     = "AZURE_FUNCTIONS_SYNC_APP_NAME"
+  plaintext_value = azurerm_linux_function_app.fa-functions-sync-mikkelhm-f1.name
 }

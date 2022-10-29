@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mikkelhm-F1.Functions", "src\Mikkelhm-F1.Functions\Mikkelhm-F1.Functions.csproj", "{1E95FB38-D785-470D-810D-9352C0CA0B63}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mikkelhm-F1.Domain", "src\Mikkelhm-F1.Functions.Core\Mikkelhm-F1.Domain.csproj", "{23D08662-5DF8-430F-B4BB-CB243BDDA72D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mikkelhm-F1.Domain", "src\Mikkelhm-F1.Domain\Mikkelhm-F1.Domain.csproj", "{23D08662-5DF8-430F-B4BB-CB243BDDA72D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mikkelhm-F1-Functions.Tests", "tests\Mikkelhm-F1-Functions.Tests\Mikkelhm-F1-Functions.Tests.csproj", "{C5855E95-E6D6-49EE-BE41-302BF3284D21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mikkelhm-F1.Infrastructure", "src\Mikkelhm-F1.Infrastructure\Mikkelhm-F1.Infrastructure.csproj", "{E9EDEF87-7F99-4B7A-8105-EB72E747C359}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mikkelhm-F1.Infrastructure", "src\Mikkelhm-F1.Infrastructure\Mikkelhm-F1.Infrastructure.csproj", "{E9EDEF87-7F99-4B7A-8105-EB72E747C359}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mikkelhm-F1.SyncFunctions", "src\Mikkelhm-F1.SyncFunctions\Mikkelhm-F1.SyncFunctions.csproj", "{FC335799-8427-451A-B938-20669E5B04F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1E95FB38-D785-470D-810D-9352C0CA0B63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1E95FB38-D785-470D-810D-9352C0CA0B63}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1E95FB38-D785-470D-810D-9352C0CA0B63}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1E95FB38-D785-470D-810D-9352C0CA0B63}.Release|Any CPU.Build.0 = Release|Any CPU
 		{23D08662-5DF8-430F-B4BB-CB243BDDA72D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{23D08662-5DF8-430F-B4BB-CB243BDDA72D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23D08662-5DF8-430F-B4BB-CB243BDDA72D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{E9EDEF87-7F99-4B7A-8105-EB72E747C359}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9EDEF87-7F99-4B7A-8105-EB72E747C359}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9EDEF87-7F99-4B7A-8105-EB72E747C359}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC335799-8427-451A-B938-20669E5B04F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC335799-8427-451A-B938-20669E5B04F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC335799-8427-451A-B938-20669E5B04F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC335799-8427-451A-B938-20669E5B04F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
-    <RootNamespace>Mikkelhm_F1.Functions</RootNamespace>
+    <RootNamespace>Mikkelhm_F1.SyncFunctions</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
@@ -12,6 +12,7 @@
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.1.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mikkelhm-F1.Domain\Mikkelhm-F1.Domain.csproj" />
     <ProjectReference Include="..\Mikkelhm-F1.Infrastructure\Mikkelhm-F1.Infrastructure.csproj" />
   </ItemGroup>
   <ItemGroup>

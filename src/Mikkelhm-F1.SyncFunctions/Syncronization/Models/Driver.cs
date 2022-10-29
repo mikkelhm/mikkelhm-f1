@@ -1,4 +1,4 @@
-﻿namespace Mikkelhm_F1.Functions.Syncronization.Models;
+﻿namespace Mikkelhm_F1.SyncFunctions.Syncronization.Models;
 
 public class Driver
 {

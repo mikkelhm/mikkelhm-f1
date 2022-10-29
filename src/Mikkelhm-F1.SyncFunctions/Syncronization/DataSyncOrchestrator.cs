@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mikkelhm_F1.Domain.Interface;
-using Mikkelhm_F1.Functions.Syncronization.Models;
-using Mikkelhm_F1.Functions.Syncronization.Resposes;
+using Mikkelhm_F1.SyncFunctions.Syncronization.Models;
+using Mikkelhm_F1.SyncFunctions.Syncronization.Resposes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Mikkelhm_F1.Functions.Syncronization;
+namespace Mikkelhm_F1.SyncFunctions.Syncronization;
 
 public class DataSyncOrchestrator : IDataSyncronizer
 {
