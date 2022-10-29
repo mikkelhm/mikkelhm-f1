@@ -14,7 +14,7 @@ resource "azurerm_api_management" "apim" {
 
 resource "cloudflare_record" "apim_cname_record" {
   zone_id = var.cloudflare_zone_id
-  name    = "api"
+  name    = "api-f1"
   type    = "CNAME"
   value   = trimprefix(azurerm_api_management.apim.gateway_url, "https://")
   proxied = true
