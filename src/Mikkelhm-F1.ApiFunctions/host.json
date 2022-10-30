@@ -1,0 +1,15 @@
+{
+  "version": "2.0",
+  "logging": {
+    "logLevel": {
+      "default": "Warning",
+      // Our own functions log at Information level
+      "Mikkelhm_F1": "Information",
+      // Gives us dependency telemetry
+      "Function": "Information",
+      "Host.Aggregator": "Error",
+      // Allowes the Monitor on the function to show success/failure executions
+      "Host.Results": "Information"
+    }
+  }
+}

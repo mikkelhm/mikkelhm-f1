@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mikkelhm-F1.Infrastructure"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mikkelhm-F1.SyncFunctions", "src\Mikkelhm-F1.SyncFunctions\Mikkelhm-F1.SyncFunctions.csproj", "{FC335799-8427-451A-B938-20669E5B04F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mikkelhm-F1.ApiFunctions", "src\Mikkelhm-F1.ApiFunctions\Mikkelhm-F1.ApiFunctions.csproj", "{C744FCF0-9B29-4222-B9E4-6A053F7F4E2B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{FC335799-8427-451A-B938-20669E5B04F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC335799-8427-451A-B938-20669E5B04F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC335799-8427-451A-B938-20669E5B04F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C744FCF0-9B29-4222-B9E4-6A053F7F4E2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C744FCF0-9B29-4222-B9E4-6A053F7F4E2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C744FCF0-9B29-4222-B9E4-6A053F7F4E2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C744FCF0-9B29-4222-B9E4-6A053F7F4E2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

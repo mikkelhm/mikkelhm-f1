@@ -1,12 +1,11 @@
 ﻿using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Mikkelhm_F1.ApiFunctions;
 using Mikkelhm_F1.Infrastructure.Installers;
-using Mikkelhm_F1.SyncFunctions;
-using Mikkelhm_F1.SyncFunctions.Syncronization;
 
 [assembly: FunctionsStartup(typeof(Startup))]
-namespace Mikkelhm_F1.SyncFunctions;
+namespace Mikkelhm_F1.ApiFunctions;
 
 public class Startup : FunctionsStartup
 {
@@ -25,8 +24,6 @@ public class Startup : FunctionsStartup
         // Infrastructure
         ServicesInstaller.InstallInfrastructure(builder.Services);
 
-
-        builder.Services.AddTransient<IDataSyncronizer, DataSyncOrchestrator>();
         builder.Services.AddHttpClient();
 
         var provider = builder.Services.BuildServiceProvider();

@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AzureFunctionsVersion>v4</AzureFunctionsVersion>
+    <RootNamespace>Mikkelhm_F1.ApiFunctions</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+	  <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
+	  <PackageReference Include="Microsoft.Azure.WebJobs.Logging.ApplicationInsights" Version="3.0.33" />
+	  <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="6.0.10" />
+	  <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.1.0" />
+  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Mikkelhm-F1.Domain\Mikkelhm-F1.Domain.csproj" />
+		<ProjectReference Include="..\Mikkelhm-F1.Infrastructure\Mikkelhm-F1.Infrastructure.csproj" />
+	</ItemGroup>
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="host.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="local.settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+</Project>
