@@ -175,7 +175,6 @@ jobs:
           skip_app_build: true
 
   deploy-sync-functions:
-    needs: [build, terraform]
     uses: ./.github/workflows/deploy-functions.yml
     with:
       functions-name: 'Sync'
@@ -186,7 +185,6 @@ jobs:
     secrets: inherit
 
   deploy-api-functions:
-    needs: [build, terraform]
     uses: ./.github/workflows/deploy-functions.yml
     with:
       functions-name: 'Api'
