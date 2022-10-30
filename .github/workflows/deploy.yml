@@ -268,11 +268,6 @@ jobs:
               Remove-Variable profile
           azPSVersion: "latest"
 
-      - name: 'Create output directory'
-        shell: bash
-        run: |
-          mkdir ${{ env.BUILD_OUTPUT_PATH }}
-
       # Fetch published code
       - name: 'Download API Azure function release build'
         uses: actions/download-artifact@v3
