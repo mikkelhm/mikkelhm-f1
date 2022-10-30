@@ -1,0 +1,111 @@
+name: 'Deploy Functions'
+
+on:
+  workflow_call:
+    inputs:
+      functions-name:
+        required: true
+        type: string
+      build-output-path:
+        required: true
+        type: string
+      resource-group-name:
+        required: true
+        type: string
+      functions-app-name:
+        required: true
+        type: string
+      functions-package-name:
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    name: 'Deploy ${{ inputs.functions-name }} Functions'
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    env:
+      BUILD_OUTPUT_PATH: '${{ inputs.build-output-path }}'
+      RESOURCE_GROUP_NAME: '${{ inputs.resource-group-name }}'
+      FUNCTIONAPP_NAME: '${{ inputs.functions-app-name }}'
+      PACKAGE_NAME: '${{ inputs.functions-package-name }}'
+
+    permissions:
+          id-token: write
+          contents: read
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      - name: Setup DotNet
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0.x'
+
+      - name: OIDC Login to Azure Public Cloud with AzPowershell (enableAzPSSession true)
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }} 
+          enable-AzPSSession: true
+
+      - name: 'Fetching ${{ inputs.functions-name }} functions Publishing Profile'
+        id: fetchpublishingprofile
+        uses: azure/powershell@v1
+        with:
+          inlineScript: |
+              $profile = ""
+              $profile = Get-AzWebAppPublishingProfile -ResourceGroupName $env:RESOURCE_GROUP_NAME -Name $env:FUNCTIONAPP_NAME
+              $profile = $profile.Replace("`r", "").Replace("`n", "")
+              Write-Output "::set-output name=pubprofile::$profile"
+              Remove-Variable profile
+          azPSVersion: "latest"
+
+      - name: 'Create output directory'
+        shell: bash
+        run: |
+          mkdir ${{ env.BUILD_OUTPUT_PATH }}
+
+      # Fetch published code
+      - name: 'Download Azure function release build'
+        uses: actions/download-artifact@v3
+        with:
+          name: functions_sync_artifacts
+          path: ${{ env.BUILD_OUTPUT_PATH }}
+
+      - name: Depoy the ${{ inputs.functions-name }} functions app
+        uses: Azure/functions-action@v1
+        with:
+          app-name: ${{ env.FUNCTIONAPP_NAME }}
+          package: ${{ env.BUILD_OUTPUT_PATH }}/${{ env.PACKAGE_NAME }}
+          publish-profile: ${{ steps.fetchpublishingprofile.outputs.pubprofile }}
+
+      - name: 'Update settings for the ${{ inputs.functions-name }} function app'
+        uses: azure/appservice-settings@v1
+        with:
+          app-name: ${{ env.FUNCTIONAPP_NAME }}
+          app-settings-json: |
+            [
+              {
+                "name":"AZURE_CLIENT_ID",
+                "value": "${{ secrets.AZURE_SP_RUNTIME_CLIENT_ID }}",
+                "slotSetting": false
+              },{
+                "name":"AZURE_CLIENT_SECRET",
+                "value": "${{ secrets.AZURE_SP_RUNTIME_CLIENT_SECRET }}",
+                "slotSetting": false
+              },{
+                "name":"AZURE_TENANT_ID",
+                "value": "${{ secrets.AZURE_TENANT_ID }}",
+                "slotSetting": false
+              },{
+                "name":"AZURE_SUBSCRIPTION_ID",
+                "value": "${{ secrets.AZURE_SUBSCRIPTION_ID }}",
+                "slotSetting": false
+              }
+            ] 
+        id: settings
