@@ -18,15 +18,6 @@ on:
       functions-package-name:
         required: true
         type: string
-    secrets:
-      AZURE_SP_RUNTIME_CLIENT_ID:
-        required: true
-      AZURE_SP_RUNTIME_CLIENT_ID:
-        required: true
-      AZURE_TENANT_ID:
-        required: true
-      AZURE_SUBSCRIPTION_ID:
-        required: true
 
 jobs:
   deploy:
