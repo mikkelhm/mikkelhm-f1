@@ -183,6 +183,7 @@ jobs:
       resource-group-name: '${{ secrets.AZURE_FUNCTIONS_SYNC_RESOURCE_GROUP_NAME }}'
       functions-app-name: '${{ secrets.AZURE_FUNCTIONS_SYNC_APP_NAME }}'
       functions-package-name: 'sync-az-func.zip'
+    secrets: inherit
 
   deploy-api-functions:
     needs: [build, terraform]
@@ -193,3 +194,4 @@ jobs:
       resource-group-name: '${{ secrets.AZURE_FUNCTIONS_API_RESOURCE_GROUP_NAME }}'
       functions-app-name: '${{ secrets.AZURE_FUNCTIONS_API_APP_NAME }}'
       functions-package-name: 'api-az-func.zip'
+    secrets: inherit
