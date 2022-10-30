@@ -179,8 +179,8 @@ jobs:
     with:
       functions-name: 'Sync'
       build-output-path: '${{ github.workspace }}/build-artifacts'
-      resource-group-name: '${{ secrets.AZURE_FUNCTIONS_SYNC_RESOURCE_GROUP_NAME }}'
-      functions-app-name: '${{ secrets.AZURE_FUNCTIONS_SYNC_APP_NAME }}'
+      resource-group-name: ${{ secrets.AZURE_FUNCTIONS_SYNC_RESOURCE_GROUP_NAME }}
+      functions-app-name: ${{ secrets.AZURE_FUNCTIONS_SYNC_APP_NAME }}
       functions-package-name: 'sync-az-func.zip'
     secrets: inherit
 
@@ -189,7 +189,7 @@ jobs:
     with:
       functions-name: 'Api'
       build-output-path: '${{ github.workspace }}/build-artifacts'
-      resource-group-name: '${{ secrets.AZURE_FUNCTIONS_API_RESOURCE_GROUP_NAME }}'
-      functions-app-name: '${{ secrets.AZURE_FUNCTIONS_API_APP_NAME }}'
+      resource-group-name: ${{ secrets.AZURE_FUNCTIONS_API_RESOURCE_GROUP_NAME }}
+      functions-app-name: ${{ secrets.AZURE_FUNCTIONS_API_APP_NAME }}
       functions-package-name: 'api-az-func.zip'
     secrets: inherit
