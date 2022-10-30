@@ -18,7 +18,7 @@ on:
       functions-package-name:
         required: true
         type: string
-    secrets: 
+    secrets:
       AZURE_SP_RUNTIME_CLIENT_ID:
         required: true
       AZURE_SP_RUNTIME_CLIENT_ID:
