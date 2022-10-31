@@ -174,13 +174,32 @@ jobs:
           # Skips the build step for the application source code if set to true.
           skip_app_build: true
 
+  deploy-sync-functions:
+    needs: [build, terraform]
+    uses: ./.github/workflows/deploy-functions.yml
+    with:
+      functions-name: 'Sync'
+      build-output-path: '${{ github.workspace }}/build-artifacts'
+      functions-package-name: 'sync-az-func.zip'
+    secrets:
+      resource-group-name: ${{ secrets.AZURE_FUNCTIONS_SYNC_RESOURCE_GROUP_NAME }}
+      functions-app-name: ${{ secrets.AZURE_FUNCTIONS_SYNC_APP_NAME }}
+      AZURE_SP_RUNTIME_CLIENT_ID: ${{ secrets.AZURE_SP_RUNTIME_CLIENT_ID }}
+      AZURE_SP_RUNTIME_CLIENT_SECRET: ${{ secrets.AZURE_SP_RUNTIME_CLIENT_SECRET }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
   deploy-api-functions:
+    needs: [build, terraform]
     uses: ./.github/workflows/deploy-functions.yml
     with:
       functions-name: 'Api'
       build-output-path: '${{ github.workspace }}/build-artifacts'
+      functions-package-name: 'api-az-func.zip'
+    secrets:
       resource-group-name: ${{ secrets.AZURE_FUNCTIONS_API_RESOURCE_GROUP_NAME }}
       functions-app-name: ${{ secrets.AZURE_FUNCTIONS_API_APP_NAME }}
-      functions-package-name: 'api-az-func.zip'
-    secrets: inherit
+      AZURE_SP_RUNTIME_CLIENT_ID: ${{ secrets.AZURE_SP_RUNTIME_CLIENT_ID }}
+      AZURE_SP_RUNTIME_CLIENT_SECRET: ${{ secrets.AZURE_SP_RUNTIME_CLIENT_SECRET }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}

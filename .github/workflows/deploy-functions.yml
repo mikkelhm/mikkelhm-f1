@@ -9,16 +9,23 @@ on:
       build-output-path:
         required: true
         type: string
-      resource-group-name:
-        required: true
-        type: string
-      functions-app-name:
-        required: true
-        type: string
       functions-package-name:
         required: true
         type: string
 
+    secrets:
+      AZURE_SP_RUNTIME_CLIENT_ID:
+        required: true
+      AZURE_SP_RUNTIME_CLIENT_SECRET:
+        required: true
+      AZURE_TENANT_ID:
+        required: true
+      AZURE_SUBSCRIPTION_ID:
+        required: true
+      resource-group-name:
+        required: true
+      functions-app-name:
+        required: true
 jobs:
   deploy:
     if: github.ref == 'refs/heads/main'
