@@ -174,15 +174,6 @@ jobs:
           # Skips the build step for the application source code if set to true.
           skip_app_build: true
 
-  deploy-sync-functions:
-    uses: ./.github/workflows/deploy-functions.yml
-    with:
-      functions-name: 'Sync'
-      build-output-path: '${{ github.workspace }}/build-artifacts'
-      resource-group-name: ${{ secrets.AZURE_FUNCTIONS_SYNC_RESOURCE_GROUP_NAME }}
-      functions-app-name: ${{ secrets.AZURE_FUNCTIONS_SYNC_APP_NAME }}
-      functions-package-name: 'sync-az-func.zip'
-    secrets: inherit
 
   deploy-api-functions:
     uses: ./.github/workflows/deploy-functions.yml
