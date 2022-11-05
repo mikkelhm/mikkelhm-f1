@@ -5,3 +5,5 @@ obj
 .terraform
 .terraform*
 .git
+.vscode
+.idea
