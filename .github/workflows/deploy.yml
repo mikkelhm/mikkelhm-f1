@@ -179,7 +179,7 @@ jobs:
     uses: ./.github/workflows/deploy-functions.yml
     with:
       functions-name: 'Sync'
-      build-output-path: '${{ github.workspace }}/build-artifacts'
+      build-output-path: '${{ github.workspace }}/sync-build-artifacts'
       functions-package-name: 'sync-az-func.zip'
     secrets:
       resource-group-name: ${{ secrets.AZURE_FUNCTIONS_SYNC_RESOURCE_GROUP_NAME }}
@@ -196,7 +196,7 @@ jobs:
     uses: ./.github/workflows/deploy-functions.yml
     with:
       functions-name: 'Api'
-      build-output-path: '${{ github.workspace }}/build-artifacts'
+      build-output-path: '${{ github.workspace }}/api-build-artifacts'
       functions-package-name: 'api-az-func.zip'
     secrets:
       resource-group-name: ${{ secrets.AZURE_FUNCTIONS_API_RESOURCE_GROUP_NAME }}
