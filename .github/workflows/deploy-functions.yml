@@ -12,12 +12,6 @@ on:
       functions-package-name:
         required: true
         type: string
-      resource-group-name:
-        required: true
-        type: string
-      functions-app-name:
-        required: true
-        type: string
 
     secrets:
       AZURE_CLIENT_ID:
@@ -32,6 +26,10 @@ on:
         required: true
       AZURE_SUBSCRIPTION_ID:
         required: true
+      resource-group-name:
+        required: true
+      functions-app-name:
+        required: true
 jobs:
   deploy:
     if: github.ref == 'refs/heads/main'
@@ -40,8 +38,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BUILD_OUTPUT_PATH: '${{ inputs.build-output-path }}'
-      RESOURCE_GROUP_NAME: '${{ inputs.resource-group-name }}'
-      FUNCTIONAPP_NAME: '${{ inputs.functions-app-name }}'
+      RESOURCE_GROUP_NAME: '${{ secrets.resource-group-name }}'
+      FUNCTIONAPP_NAME: '${{ secrets.functions-app-name }}'
       PACKAGE_NAME: '${{ inputs.functions-package-name }}'
 
     permissions:
