@@ -41,6 +41,7 @@ jobs:
       RESOURCE_GROUP_NAME: '${{ secrets.resource-group-name }}'
       FUNCTIONAPP_NAME: '${{ secrets.functions-app-name }}'
       PACKAGE_NAME: '${{ inputs.functions-package-name }}'
+      FUNCTIONS_NAME: '${{ inputs.functions-name }}'
 
     permissions:
           id-token: write
@@ -77,20 +78,20 @@ jobs:
       - name: 'Create output directory'
         shell: bash
         run: |
-          sudo mkdir ${{ env.BUILD_OUTPUT_PATH }}
+          sudo mkdir ${{ env.BUILD_OUTPUT_PATH }}/${{ env.FUNCTIONS_NAME }}
 
       # Fetch published code
       - name: 'Download Azure function release build'
         uses: actions/download-artifact@v3
         with:
           name: functions_sync_artifacts
-          path: ${{ env.BUILD_OUTPUT_PATH }}
+          path: ${{ env.BUILD_OUTPUT_PATH }}/${{ env.FUNCTIONS_NAME }}
 
       - name: Depoy the ${{ inputs.functions-name }} functions app
         uses: Azure/functions-action@v1
         with:
           app-name: ${{ env.FUNCTIONAPP_NAME }}
-          package: ${{ env.BUILD_OUTPUT_PATH }}/${{ env.PACKAGE_NAME }}
+          package: ${{ env.BUILD_OUTPUT_PATH }}/${{ env.FUNCTIONS_NAME }}/${{ env.PACKAGE_NAME }}
           publish-profile: ${{ steps.fetchpublishingprofile.outputs.pubprofile }}
 
       - name: 'Update settings for the ${{ inputs.functions-name }} function app'
