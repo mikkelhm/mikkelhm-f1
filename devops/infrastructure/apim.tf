@@ -26,7 +26,7 @@ resource "azurerm_api_management_backend" "f1_backend" {
   resource_group_name = azurerm_resource_group.rg-mikkelhm-f1.name
   api_management_name = azurerm_api_management.apim.name
   protocol            = "http"
-  url                 = azurerm_linux_function_app.fa-functions-api-mikkelhm-f1.default_hostname
+  url                 = "https://${azurerm_linux_function_app.fa-functions-api-mikkelhm-f1.default_hostname}"
 }
 
 resource "azurerm_api_management_api" "f1_api" {
@@ -40,6 +40,6 @@ resource "azurerm_api_management_api" "f1_api" {
 
   import {
     content_format = "swagger-link-json"
-    content_value  = "${azurerm_linux_function_app.fa-functions-api-mikkelhm-f1.default_hostname}/api/swagger.json"
+    content_value  = "https://${azurerm_linux_function_app.fa-functions-api-mikkelhm-f1.default_hostname}/api/swagger.json"
   }
 }
