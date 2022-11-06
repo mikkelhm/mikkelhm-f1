@@ -12,6 +12,12 @@ on:
       functions-package-name:
         required: true
         type: string
+      resource-group-name:
+        required: true
+        type: string
+      functions-app-name:
+        required: true
+        type: string
 
     secrets:
       AZURE_CLIENT_ID:
@@ -25,10 +31,6 @@ on:
       AZURE_TENANT_ID:
         required: true
       AZURE_SUBSCRIPTION_ID:
-        required: true
-      resource-group-name:
-        required: true
-      functions-app-name:
         required: true
 jobs:
   deploy:

@@ -181,9 +181,9 @@ jobs:
       functions-name: 'Sync'
       build-output-path: '${{ github.workspace }}/build-artifacts'
       functions-package-name: 'sync-az-func.zip'
-    secrets:
       resource-group-name: ${{ secrets.AZURE_FUNCTIONS_SYNC_RESOURCE_GROUP_NAME }}
       functions-app-name: ${{ secrets.AZURE_FUNCTIONS_SYNC_APP_NAME }}
+    secrets:
       AZURE_SP_RUNTIME_CLIENT_ID: ${{ secrets.AZURE_SP_RUNTIME_CLIENT_ID }}
       AZURE_SP_RUNTIME_CLIENT_SECRET: ${{ secrets.AZURE_SP_RUNTIME_CLIENT_SECRET }}
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
@@ -198,9 +198,9 @@ jobs:
       functions-name: 'Api'
       build-output-path: '${{ github.workspace }}/build-artifacts'
       functions-package-name: 'api-az-func.zip'
-    secrets:
       resource-group-name: ${{ secrets.AZURE_FUNCTIONS_API_RESOURCE_GROUP_NAME }}
       functions-app-name: ${{ secrets.AZURE_FUNCTIONS_API_APP_NAME }}
+    secrets:
       AZURE_SP_RUNTIME_CLIENT_ID: ${{ secrets.AZURE_SP_RUNTIME_CLIENT_ID }}
       AZURE_SP_RUNTIME_CLIENT_SECRET: ${{ secrets.AZURE_SP_RUNTIME_CLIENT_SECRET }}
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
