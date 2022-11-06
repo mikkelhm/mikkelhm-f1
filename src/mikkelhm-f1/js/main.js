@@ -1,29 +1,14 @@
-const api_url = "https://ergast.com/api/f1/seasons.json";
+const api_url = "https://azfunc-mikkelhm-f1-api.azurewebsites.net/api/seasons";
 
 // Defining async function
 async function getapi(url) {
-    
-    var moreResults = true;
-    var offset = 0;
-    var limit = 30;
+
     var data = [];
-    while(moreResults) {
-        var fetchUrl = url+"?limit="+limit+"&offset="+offset;
-        console.log(fetchUrl);
-        response = await fetch(url+"?limit="+limit+"&offset="+offset);
-        var result = await response.json();
-        data.push(...result.MRData.SeasonTable.Seasons)
-       console.log(data.length);
-       console.log(result.MRData.total);
-        if(data.length >= result.MRData.total) {
-            moreResults = false;
-        }
-        else {
-            offset += limit;
-        }
-        if(offset > 500)
-            moreResults = false;
-    }
+    console.log(url);
+    response = await fetch(url);
+    var result = await response.json();
+    data.push(...result)
+    console.log(result);
     showSeasons(data);
     console.log(data);
 }
@@ -32,11 +17,11 @@ getapi(api_url);
 
 // Function to define innerHTML for HTML table
 function showSeasons(data) {
-    data.sort((a, b) => b.season - a.season);
+    data.sort((a, b) => b.year - a.year);
     // Loop to access all rows 
     let tab = "";
     for (let r of data) {
-        tab += `<li>${r.season}: <a href='${r.url}' target='_blank'>${r.url}</a> </li>`;
+        tab += `<li>${r.year}: <a href='${r.wikipediaInformation.link}' target='_blank'>${r.wikipediaInformation.link}</a> </li>`;
     }
     // Setting innerHTML as tab variable
     document.getElementById("seasons").innerHTML = tab;
