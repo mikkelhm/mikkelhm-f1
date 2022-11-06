@@ -20,3 +20,11 @@ resource "cloudflare_record" "apim_cname_record" {
   proxied = true
   ttl     = 1 # Cloudflare will terminate TLS
 }
+
+resource "azurerm_api_management_backend" "f1_backend" {
+  name                = "f1_api_backend"
+  resource_group_name = azurerm_resource_group.rg-mikkelhm-f1.name
+  api_management_name = azurerm_api_management.apim.name
+  protocol            = "http"
+  url                 = azurerm_linux_function_app.fa-functions-api-mikkelhm-f1.default_hostname
+}
