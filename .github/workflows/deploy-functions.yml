@@ -76,7 +76,7 @@ jobs:
       - name: 'Create output directory'
         shell: bash
         run: |
-          sudo mkdir ${{ env.BUILD_OUTPUT_PATH }}
+          sudo mkdir -m 777 ${{ env.BUILD_OUTPUT_PATH }}
 
       # Fetch published code
       - name: 'Download Azure function release build'
