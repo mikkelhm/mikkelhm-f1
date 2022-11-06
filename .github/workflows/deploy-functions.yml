@@ -12,6 +12,9 @@ on:
       functions-package-name:
         required: true
         type: string
+      functions-artifacts-name:
+        required: true
+        type: string
 
     secrets:
       AZURE_CLIENT_ID:
@@ -82,7 +85,7 @@ jobs:
       - name: 'Download Azure function release build'
         uses: actions/download-artifact@v3
         with:
-          name: functions_sync_artifacts
+          name: ${{ inputs.functions-artifacts-name }}
           path: ${{ env.BUILD_OUTPUT_PATH }}
 
       - name: Depoy the ${{ inputs.functions-name }} functions app
