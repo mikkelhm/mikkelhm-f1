@@ -28,3 +28,18 @@ resource "azurerm_api_management_backend" "f1_backend" {
   protocol            = "http"
   url                 = azurerm_linux_function_app.fa-functions-api-mikkelhm-f1.default_hostname
 }
+
+resource "azurerm_api_management_api" "f1_api" {
+  name                = "f1"
+  resource_group_name = azurerm_resource_group.rg-mikkelhm-f1.name
+  api_management_name = azurerm_api_management.apim.name
+  revision            = "1"
+  display_name        = "F1 API"
+  path                = "f1"
+  protocols           = ["https"]
+
+  import {
+    content_format = "swagger-link-json"
+    content_value  = "${azurerm_linux_function_app.fa-functions-api-mikkelhm-f1.default_hostname}/api/swagger.json"
+  }
+}
