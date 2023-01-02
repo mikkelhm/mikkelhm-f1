@@ -94,29 +94,3 @@ jobs:
           app-name: ${{ env.FUNCTIONAPP_NAME }}
           package: ${{ env.BUILD_OUTPUT_PATH }}/${{ env.PACKAGE_NAME }}
           publish-profile: ${{ steps.fetchpublishingprofile.outputs.pubprofile }}
-
-      - name: 'Update settings for the ${{ inputs.functions-name }} function app'
-        uses: azure/appservice-settings@v1
-        with:
-          app-name: ${{ env.FUNCTIONAPP_NAME }}
-          app-settings-json: |
-            [
-              {
-                "name":"AZURE_CLIENT_ID",
-                "value": "${{ secrets.AZURE_SP_RUNTIME_CLIENT_ID }}",
-                "slotSetting": false
-              },{
-                "name":"AZURE_CLIENT_SECRET",
-                "value": "${{ secrets.AZURE_SP_RUNTIME_CLIENT_SECRET }}",
-                "slotSetting": false
-              },{
-                "name":"AZURE_TENANT_ID",
-                "value": "${{ secrets.AZURE_TENANT_ID }}",
-                "slotSetting": false
-              },{
-                "name":"AZURE_SUBSCRIPTION_ID",
-                "value": "${{ secrets.AZURE_SUBSCRIPTION_ID }}",
-                "slotSetting": false
-              }
-            ] 
-        id: settings
