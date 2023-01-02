@@ -33,10 +33,10 @@ resource "azurerm_linux_function_app" "fa-functions-sync-mikkelhm-f1" {
 
   app_settings = {
     "FUNCTIONS_WORKER_RUNTIME" = "dotnet"
-    "AZURE_CLIENT_ID" = azuread_service_principal.sp.application_id
-    "AZURE_CLIENT_SECRET" = azuread_service_principal_password.sp_pass.value
-    "AZURE_TENANT_ID" = var.azure_tenant_id
-    "AZURE_SUBSCRIPTION_ID" = var.azure_subscription_id
+    "AZURE_CLIENT_ID"          = azuread_service_principal.sp.application_id
+    "AZURE_CLIENT_SECRET"      = azuread_service_principal_password.sp_pass.value
+    "AZURE_TENANT_ID"          = var.azure_tenant_id
+    "AZURE_SUBSCRIPTION_ID"    = var.azure_subscription_id
   }
 }
 
@@ -81,10 +81,10 @@ resource "azurerm_linux_function_app" "fa-functions-api-mikkelhm-f1" {
 
   app_settings = {
     "FUNCTIONS_WORKER_RUNTIME" = "dotnet"
-    "AZURE_CLIENT_ID" = azuread_service_principal.sp.application_id
-    "AZURE_CLIENT_SECRET" = azuread_service_principal_password.sp_pass.value
-    "AZURE_TENANT_ID" = var.azure_tenant_id
-    "AZURE_SUBSCRIPTION_ID" = var.azure_subscription_id
+    "AZURE_CLIENT_ID"          = azuread_service_principal.sp.application_id
+    "AZURE_CLIENT_SECRET"      = azuread_service_principal_password.sp_pass.value
+    "AZURE_TENANT_ID"          = var.azure_tenant_id
+    "AZURE_SUBSCRIPTION_ID"    = var.azure_subscription_id
   }
 }
 
