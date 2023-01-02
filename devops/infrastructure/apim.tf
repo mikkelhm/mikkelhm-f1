@@ -37,6 +37,7 @@ resource "azurerm_api_management_api" "f1_api" {
   display_name        = "F1 API"
   path                = "f1"
   protocols           = ["https"]
+  service_url         = "https://${azurerm_linux_function_app.fa-functions-api-mikkelhm-f1.default_hostname}/api/"
 
   import {
     content_format = "swagger-link-json"
