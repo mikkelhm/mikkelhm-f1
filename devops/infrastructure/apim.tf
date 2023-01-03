@@ -14,7 +14,7 @@ resource "azurerm_api_management" "apim" {
 
 resource "azurerm_key_vault_access_policy" "apim_kv_access" {
   key_vault_id = azurerm_key_vault.kv.id
-  object_id    = azurerm_api_management.apim.identity.principal_id
+  object_id    = azurerm_api_management.apim.identity[0].principal_id
   tenant_id    = var.azure_tenant_id
   secret_permissions = [
     "Get",
