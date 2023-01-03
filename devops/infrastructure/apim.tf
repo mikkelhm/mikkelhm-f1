@@ -12,6 +12,22 @@ resource "azurerm_api_management" "apim" {
   }
 }
 
+resource "azurerm_key_vault_access_policy" "apim_kv_access" {
+  key_vault_id = azurerm_key_vault.kv.id
+  object_id    = azurerm_api_management.apim.identity.principal_id
+  tenant_id    = var.azure_tenant_id
+  secret_permissions = [
+    "Get",
+    "List"
+  ]
+}
+
+# resource "azurerm_role_assignment" "role_assignments" {
+#   scope                = azurerm_key_vault.kv.id
+#   role_definition_name = "Key Vault Certificates Officer"
+#   principal_id         = azurerm_api_management.apim.identity.principal_id
+# }
+
 resource "cloudflare_record" "apim_cname_record" {
   zone_id = var.cloudflare_zone_id
   name    = "api-f1"
