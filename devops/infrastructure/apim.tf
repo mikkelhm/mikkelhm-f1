@@ -42,15 +42,29 @@ resource "azurerm_api_management_api_policy" "f1_api_policy" {
   api_management_name = azurerm_api_management.apim.name
   resource_group_name = azurerm_api_management.apim.resource_group_name
   xml_content         = <<XML
-    <policies>
-      <inbound>
-        <cross-domain>
-          <cross-domain-policy>
-            <allow-http-request-headers-from domain='*' headers='*' />
-          </cross-domain-policy>
-        </cross-domain>
-      </inbound>
-    </policies>
+<policies>
+    <inbound>
+        <base />
+        <cors allow-credentials="false">
+            <allowed-origins>
+                <origin>*</origin>
+            </allowed-origins>
+            <allowed-methods>
+                <method>GET</method>
+                <method>POST</method>
+            </allowed-methods>
+        </cors>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>
   XML
 }
 
