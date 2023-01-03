@@ -42,4 +42,5 @@ resource "azurerm_api_management_subscription" "f1_api_subscription" {
   resource_group_name = azurerm_api_management.apim.resource_group_name
   display_name        = "f1_api_subscription"
   api_id              = azurerm_api_management_api.f1_api.id
+  state               = "active"
 }
