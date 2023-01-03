@@ -16,10 +16,6 @@ terraform {
       source  = "integrations/github"
       version = "~> 4.0"
     }
-    pkcs12 = {
-      source  = "chilicat/pkcs12"
-      version = "0.0.7"
-    }
   }
   backend "azurerm" {}
 
@@ -46,7 +42,4 @@ provider "cloudflare" {
 
 provider "github" {
   token = var.github_token
-}
-
-provider "pkcs12" {
 }

@@ -1,12 +1,3 @@
-locals {
-  organization       = "EllAsta"
-  one_year_in_hours  = 8760
-  one_month_in_hours = 720
-  key_size           = 4096
-  key_type           = "RSA"
-}
-
-
 resource "azurerm_api_management" "apim" {
   location            = azurerm_resource_group.rg-mikkelhm-f1.location
   resource_group_name = azurerm_resource_group.rg-mikkelhm-f1.name
@@ -30,55 +21,63 @@ resource "cloudflare_record" "apim_cname_record" {
   ttl     = 1 # Cloudflare will terminate TLS
 }
 
+resource "azurerm_key_vault_certificate" "apim_cname_certificate" {
+  name         = "api-f1-certificate"
+  key_vault_id = azurerm_key_vault.kv.id
 
-# api-internal.cloudflare-zone-name certificate
-resource "tls_private_key" "rsa_4096_key" {
-  algorithm = local.key_type
-  rsa_bits  = local.key_size
-}
+  certificate_policy {
+    issuer_parameters {
+      name = "Self"
+    }
 
-# CA certificate
-resource "tls_self_signed_cert" "apim_hostname_ca" {
-  private_key_pem = tls_private_key.rsa_4096_key.private_key_pem
+    key_properties {
+      exportable = true
+      key_size   = 2048
+      key_type   = "RSA"
+      reuse_key  = true
+    }
 
-  subject {
-    common_name  = cloudflare_record.apim_cname_record.hostname
-    organization = local.organization
+    lifetime_action {
+      action {
+        action_type = "AutoRenew"
+      }
+
+      trigger {
+        days_before_expiry = 30
+      }
+    }
+
+    secret_properties {
+      content_type = "application/x-pkcs12"
+    }
+
+    x509_certificate_properties {
+      key_usage = [
+        "cRLSign",
+        "dataEncipherment",
+        "digitalSignature",
+        "keyAgreement",
+        "keyCertSign",
+        "keyEncipherment",
+      ]
+
+      subject            = "CN=api-f1.madsn.dk"
+      validity_in_months = 12
+
+      subject_alternative_names {
+        dns_names = [
+          "api-f1.madsn.dk",
+        ]
+      }
+    }
   }
-
-  validity_period_hours = local.one_year_in_hours
-  early_renewal_hours   = local.one_month_in_hours
-  is_ca_certificate     = true
-
-  allowed_uses = [
-    "key_encipherment",
-    "digital_signature",
-    "server_auth"
-  ]
-}
-
-// Certificate conversion
-resource "random_password" "pfx_password" {
-  length  = 16
-  special = false
-}
-resource "pkcs12_from_pem" "ca_pkcs12" {
-  password        = random_password.pfx_password.result
-  cert_pem        = tls_self_signed_cert.apim_hostname_ca.cert_pem
-  private_key_pem = tls_private_key.rsa_4096_key.private_key_pem
 }
 
 resource "azurerm_api_management_custom_domain" "apim_internal" {
   api_management_id = azurerm_api_management.apim.id
-
-  # Bugs
-  ## default_ssl_binding is set to true by default even though the documentation says otherwise and trying to updating trough Terraform does not work...
-  ## ... due to the issue, we need to set it to true else the CI/CD pipeline will take a ~ 6 min build time hit per stamp
-  proxy {
-    host_name            = cloudflare_record.apim_cname_record.hostname
-    certificate          = pkcs12_from_pem.ca_pkcs12.result
-    certificate_password = random_password.pfx_password.result
-    default_ssl_binding  = true
+  gateway {
+    host_name    = "api-f1.madsn.dk"
+    key_vault_id = azurerm_key_vault_certificate.apim_cname_certificate.secret_id
   }
 }
 
