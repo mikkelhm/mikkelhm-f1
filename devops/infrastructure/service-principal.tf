@@ -42,6 +42,10 @@ locals {
       scope                = azurerm_key_vault.kv.id
       role_definition_name = "Key Vault Secrets User"
     },
+    "kv_certificate_access" = {
+      scope                = azurerm_key_vault.kv.id
+      role_definition_name = "Key Vault Certificates Officer"
+    },
     "appcfg_access" = {
       scope                = azurerm_app_configuration.appcfg.id
       role_definition_name = "App Configuration Data Reader"
