@@ -17,7 +17,7 @@ resource "cloudflare_record" "apim_cname_record" {
   name    = "api-f1"
   type    = "CNAME"
   value   = trimprefix(azurerm_api_management.apim.gateway_url, "https://")
-  proxied = true
+  proxied = false
   ttl     = 1 # Cloudflare will terminate TLS
 }
 
