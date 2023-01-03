@@ -37,6 +37,23 @@ resource "azurerm_api_management_api" "f1_api" {
   }
 }
 
+resource "azurerm_api_management_api_policy" "f1_api_policy" {
+  api_name            = azurerm_api_management_api.f1_api.name
+  api_management_name = azurerm_api_management.apim.name
+  resource_group_name = azurerm_api_management.apim.resource_group_name
+  xml_content         = <<XML
+    <policies>
+      <inbound>
+        <cross-domain>
+          <cross-domain-policy>
+            <allow-http-request-headers-from domain='*' headers='*' />
+          </cross-domain-policy>
+        </cross-domain>
+      </inbound>
+    </policies>
+  XML
+}
+
 resource "azurerm_api_management_subscription" "f1_api_subscription" {
   api_management_name = azurerm_api_management.apim.name
   resource_group_name = azurerm_api_management.apim.resource_group_name
